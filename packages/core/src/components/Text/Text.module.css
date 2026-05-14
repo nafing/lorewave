@@ -1,0 +1,26 @@
+.root {
+  margin: 0;
+  font-family: var(--lorewave-font-family);
+  font-size: var(--text-fz, var(--lorewave-font-size-md));
+  line-height: var(--text-lh, var(--lorewave-line-height-md));
+  font-weight: var(--lorewave-font-weight-regular);
+}
+
+.root:where([data-inline]) {
+  display: inline;
+}
+
+.root:where([data-inherit]) {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+.root:where([data-line-clamp]) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--text-line-clamp);
+}
