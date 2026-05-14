@@ -1,45 +1,33 @@
 import type { FullToken } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getSpacing } from "../../utils/get-size";
-import classes from "./Group.module.css";
+import classes from "./Stack.module.css";
 
 interface CProps {
   children?: React.ReactNode;
   gap?: FullToken;
   align?: React.CSSProperties["alignItems"];
   justify?: React.CSSProperties["justifyContent"];
-  wrap?: React.CSSProperties["flexWrap"];
-  grow?: boolean;
 }
 
 type CSlots = "root";
 
-export const Group = coreCompute<CProps, CSlots, HTMLDivElement>(
+export const Stack = coreCompute<CProps, CSlots, HTMLDivElement>(
   {
     classes,
     nativeSlot: "root",
     styleSlot: "root",
     defaultProps: {
       gap: "sm",
-      align: "center",
+      align: "stretch",
       justify: "flex-start",
-      wrap: "wrap",
-      grow: false,
     },
-    vars: ({ gap, align, justify, wrap }) => {
+    vars: ({ gap, align, justify }) => {
       return {
         root: {
-          "--group-gap": getSpacing(gap),
-          "--group-align": align,
-          "--group-justify": justify,
-          "--group-wrap": wrap,
-        },
-      };
-    },
-    mods: ({ grow }) => {
-      return {
-        root: {
-          "data-grow": grow,
+          "--stack-gap": getSpacing(gap),
+          "--stack-align": align,
+          "--stack-justify": justify,
         },
       };
     },
