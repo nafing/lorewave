@@ -37,13 +37,19 @@ export const Button = coreCompute<CProps, CSlots, HTMLButtonElement>(
           "--button-fz": getFontSize(size),
           "--button-radius":
             radius === undefined ? undefined : getRadius(radius),
+          "--button-color": colors.color,
+          "--button-hover-color": colors.hoverColor,
+          "--button-bg": colors.background,
+          "--button-hover-bg": colors.hoverBackground,
+          "--button-border": colors.border,
+          "--button-hover-border": colors.hoverBorder,
         },
       };
     },
     mods: ({ disabled, loading, fullWidth, leftSection, rightSection }) => {
       return {
         root: {
-          "data-disabled": disabled || disabled,
+          "data-disabled": disabled || loading,
           "data-loading": loading,
           "data-full-width": fullWidth,
           "data-with-left-section": leftSection,
@@ -53,8 +59,16 @@ export const Button = coreCompute<CProps, CSlots, HTMLButtonElement>(
     },
   },
   (props, slot) => {
+    const rootProps = slot.root as React.ButtonHTMLAttributes<HTMLButtonElement>;
+    const { type = "button", ...restRootProps } = rootProps;
+
     return (
-      <button {...slot.root} disabled={props.disabled || props.loading}>
+      <button
+        {...restRootProps}
+        type={type}
+        aria-busy={props.loading}
+        disabled={props.disabled || props.loading}
+      >
         <span {...slot.loader}>
           <LoaderIcon width={24} height={24} strokeWidth={2} />
         </span>
