@@ -1,0 +1,22 @@
+:root {
+  --lorewave-color-white: #ffffff;
+  --lorewave-color-black: #000000;
+  --lorewave-color-text: #c9c9c9;
+  --lorewave-color-dimmed: #828282;
+
+  --lorewave-color-primary: #4f46e5;
+  --lorewave-color-secondary: #6b7280;
+  --lorewave-color-success: #10b981;
+  --lorewave-color-warning: #f59e0b;
+  --lorewave-color-error: #ef4444;
+  --lorewave-color-info: #3b82f6;
+
+  --lorewave-color-paper: #1f1f1f;
+  --lorewave-color-body: #0f1012;
+  --lorewave-color-border: #333333;
+  --lorewave-color-disabled: #6e6e6e;
+  --lorewave-color-disabled-background: #262626;
+
+  --lorewave-color-scrollbar: #ffffff33;
+  --lorewave-color-scrollbar-hover: #ffffff59;
+}

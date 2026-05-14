@@ -1,0 +1,62 @@
+@import "./colors.css";
+@import "./typography.css";
+@import "./sizes.css";
+
+:root {
+  --lorewave-scale: 1;
+
+  --lorewave-z-index-app: 100;
+  --lorewave-z-index-modal: 200;
+  --lorewave-z-index-popover: 300;
+  --lorewave-z-index-overlay: 400;
+  --lorewave-z-index-max: 9999;
+
+  --lorewave-shadow-xs:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.05),
+    0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
+  --lorewave-shadow-sm:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0 0.625rem 0.9375rem -0.3125rem,
+    rgba(0, 0, 0, 0.04) 0 0.4375rem 0.4375rem -0.3125rem;
+  --lorewave-shadow-md:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0 1.25rem 1.5625rem -0.3125rem,
+    rgba(0, 0, 0, 0.04) 0 0.625rem 0.625rem -0.3125rem;
+  --lorewave-shadow-lg:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0 1.75rem 1.4375rem -0.4375rem,
+    rgba(0, 0, 0, 0.04) 0 0.75rem 0.75rem -0.4375rem;
+  --lorewave-shadow-xl:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0 2.25rem 1.75rem -0.4375rem,
+    rgba(0, 0, 0, 0.04) 0 1.0625rem 1.0625rem -0.4375rem;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+body {
+  -webkit-font-smoothing: var(--lorewave-webkit-font-smoothing);
+  -moz-osx-font-smoothing: var(--lorewave-moz-font-smoothing);
+  background-color: var(--lorewave-color-body);
+  color: var(--lorewave-color-text);
+  font-family: var(--lorewave-font-family);
+  font-size: var(--lorewave-font-size-md);
+  line-height: var(--lorewave-line-height-md);
+  margin: 0;
+}

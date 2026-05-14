@@ -1,0 +1,15 @@
+.root {
+  --paper-border-color: var(--lorewave-color-border);
+
+  outline: 0;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  touch-action: manipulation;
+  text-decoration: none;
+  box-shadow: var(--paper-shadow);
+  background: var(--lorewave-color-paper);
+
+  &:where([data-with-border]) {
+    border: 0.0625rem solid var(--paper-border-color);
+  }
+}
