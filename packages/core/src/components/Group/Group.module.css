@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: var(--group-wrap, wrap);
+  align-items: var(--group-align, center);
+  justify-content: var(--group-justify, flex-start);
+  gap: var(--group-gap, var(--lorewave-spacing-sm));
+}
+
+.root:where([data-grow]) > * {
+  flex: 1;
+}
