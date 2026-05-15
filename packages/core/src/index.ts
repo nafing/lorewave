@@ -8,5 +8,6 @@ export * from "./components/Button/Button";
 export * from "./components/ActionIcon/ActionIcon";
 export * from "./components/TextInput/TextInput";
 export * from "./components/NumberInput/NumberInput";
+export * from "./components/Select/Select";
 export * from "./components/Text/Text";
 export * from "./components/Title/Title";

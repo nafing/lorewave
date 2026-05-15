@@ -6,6 +6,7 @@ import {
   Button,
   TextInput,
   NumberInput,
+  Select,
   Text,
   Title,
   Paper,
@@ -44,11 +45,52 @@ const COLORS: Colors[] = [
   "info",
 ];
 
+const SELECT_OPTIONS = [
+  {
+    value: "react",
+    label: "React",
+    description: "UI library focused on components",
+    icon: <IconStar size={14} />,
+  },
+  {
+    value: "vue",
+    label: "Vue",
+    description: "Progressive framework",
+    icon: <IconSettings size={14} />,
+  },
+  {
+    value: "svelte",
+    label: "Svelte",
+    description: "Compiler-based approach",
+    icon: <IconPlus size={14} />,
+  },
+  {
+    value: "solid",
+    label: "Solid",
+    description: "Fine-grained reactivity",
+    icon: <IconArrowLeft size={14} />,
+  },
+  {
+    value: "legacy",
+    label: "Legacy option",
+    description: "Hidden in dropdown",
+    hidden: true,
+  },
+];
+
+const SIMPLE_SELECT_OPTIONS = [
+  { value: "react", label: "React" },
+  { value: "vue", label: "Vue" },
+  { value: "svelte", label: "Svelte" },
+  { value: "solid", label: "Solid" },
+];
+
 const App = () => {
   const [inputValue, setInputValue] = React.useState<string>(
     "nafingone@gmail.com",
   );
   const [amount, setAmount] = React.useState<number>(129);
+  const [framework, setFramework] = React.useState<string>("");
 
   return (
     <Box m="xl">
@@ -65,31 +107,33 @@ const App = () => {
             loading state.
           </Text>
 
-          <Group>
+          <Grid mt="md" cols={6} gutter="md">
             {SIZES.map((size) => (
-              <Button key={size} size={size}>
-                {size} SIZE
-              </Button>
+              <Grid.Col key={size} span={1}>
+                <Button size={size}>{size} SIZE</Button>
+              </Grid.Col>
             ))}
-          </Group>
+          </Grid>
 
-          <Group>
+          <Grid mt="md" cols={6} gutter="md">
             {VARIANTS.map((variant) => (
-              <Button key={variant} variant={variant}>
-                {variant} VARIANT
-              </Button>
+              <Grid.Col key={variant} span={1}>
+                <Button variant={variant}>{variant} VARIANT</Button>
+              </Grid.Col>
             ))}
-          </Group>
+          </Grid>
 
-          <Group>
+          <Grid mt="md" cols={7} gutter="md">
             {COLORS.map((color) => (
-              <Button key={color} color={color}>
-                {color} COLOR
-              </Button>
+              <Grid.Col key={color} span={1}>
+                <Button color={color}>{color} COLOR</Button>
+              </Grid.Col>
             ))}
 
-            <Button color="#ff69b4">#ff69b4 COLOR (pink)</Button>
-          </Group>
+            <Grid.Col span={1}>
+              <Button color="#ff69b4">#ff69b4 COLOR (pink)</Button>
+            </Grid.Col>
+          </Grid>
 
           <Button.Group radius="xl">
             <Button leftSection={<IconArrowLeft />}>Hello World</Button>
@@ -106,33 +150,42 @@ const App = () => {
             ActionIcon supports all variants and sizes, as well as the new
             loading state.
           </Text>
-          <Group>
+
+          <Grid mt="md" cols={6} gutter="md">
             {SIZES.map((size) => (
-              <ActionIcon key={size} size={size}>
-                <IconStar />
-              </ActionIcon>
+              <Grid.Col key={size} span={1}>
+                <ActionIcon size={size}>
+                  <IconStar />
+                </ActionIcon>
+              </Grid.Col>
             ))}
-          </Group>
+          </Grid>
 
-          <Group>
+          <Grid mt="md" cols={6} gutter="md">
             {VARIANTS.map((variant) => (
-              <ActionIcon key={variant} variant={variant}>
-                <IconSettings />
-              </ActionIcon>
+              <Grid.Col key={variant} span={1}>
+                <ActionIcon variant={variant}>
+                  <IconSettings />
+                </ActionIcon>
+              </Grid.Col>
             ))}
-          </Group>
+          </Grid>
 
-          <Group>
+          <Grid mt="md" cols={6} gutter="md">
             {COLORS.map((color) => (
-              <ActionIcon key={color} color={color}>
+              <Grid.Col key={color} span={1}>
+                <ActionIcon color={color}>
+                  <IconPlus />
+                </ActionIcon>
+              </Grid.Col>
+            ))}
+
+            <Grid.Col span={1}>
+              <ActionIcon color="#ff69b4">
                 <IconPlus />
               </ActionIcon>
-            ))}
-
-            <ActionIcon color="#ff69b4">
-              <IconPlus />
-            </ActionIcon>
-          </Group>
+            </Grid.Col>
+          </Grid>
 
           <ActionIcon.Group radius="xl">
             <ActionIcon>
@@ -155,52 +208,67 @@ const App = () => {
             TextInput supports all variants and sizes with proper styling.
           </Text>
 
-          <Stack gap="md">
+          <Grid mt="md" cols={5} gutter="md">
             {SIZES.map((size) => (
-              <TextInput
-                key={size}
-                size={size}
-                label={`${size} size`}
-                placeholder={`${size} size input`}
-              />
+              <Grid.Col key={size} span={1}>
+                <TextInput
+                  size={size}
+                  label={`${size} size`}
+                  placeholder={`${size} size input`}
+                />
+              </Grid.Col>
             ))}
-          </Stack>
+          </Grid>
 
-          <Stack gap="md" mt="md">
-            <TextInput
-              label="Email"
-              placeholder="Enter your email"
-              description="We'll never share your email"
-              error={
-                inputValue && !inputValue.includes("@")
-                  ? "Invalid email address"
-                  : undefined
-              }
-              value={inputValue}
-              onChange={setInputValue}
-            />
-            <TextInput
-              label="Password"
-              placeholder="Enter password"
-              error="Password must be at least 8 characters"
-            />
-            <TextInput placeholder="Disabled input" disabled />
-            <TextInput placeholder="Read-only input" readonly />
-            <TextInput
-              placeholder="With left section"
-              leftSection={<IconStar size={16} />}
-            />
-            <TextInput
-              placeholder="With right section"
-              rightSection={<IconSettings size={16} />}
-            />
-            <TextInput
-              label="With both sections"
-              placeholder="Search..."
-              leftSection={<IconStar size={16} />}
-              rightSection={<IconArrowLeft size={16} />}
-            />
-          </Stack>
+          <Grid mt="md" cols={5} gutter="md">
+            <Grid.Col span={1}>
+              <TextInput
+                label="Email"
+                placeholder="Enter your email"
+                description="We'll never share your email"
+                error={
+                  inputValue && !inputValue.includes("@")
+                    ? "Invalid email address"
+                    : undefined
+                }
+                value={inputValue}
+                onChange={setInputValue}
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <TextInput
+                label="Password"
+                placeholder="Enter password"
+                error="Password must be at least 8 characters"
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <TextInput placeholder="Disabled input" disabled />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <TextInput placeholder="Read-only input" readonly />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <TextInput
+                placeholder="With left section"
+                leftSection={<IconStar size={16} />}
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <TextInput
+                placeholder="With right section"
+                rightSection={<IconSettings size={16} />}
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <TextInput
+                label="With both sections"
+                placeholder="Search..."
+                leftSection={<IconStar size={16} />}
+                rightSection={<IconArrowLeft size={16} />}
+              />
+            </Grid.Col>
+          </Grid>
         </Stack>
       </Paper>
 
@@ -211,50 +279,117 @@ const App = () => {
             NumberInput supports sizing, constraints and controlled values.
           </Text>
 
-          <Stack gap="md">
+          <Grid mt="md" cols={5} gutter="md">
             {SIZES.map((size) => (
-              <NumberInput
-                key={size}
-                size={size}
-                label={`${size} size`}
-                placeholder={`${size} size number`}
-                min={0}
-                max={999}
-                step={1}
-              />
+              <Grid.Col key={size} span={1}>
+                <NumberInput
+                  size={size}
+                  label={`${size} size`}
+                  placeholder={`${size} size number`}
+                  min={0}
+                  max={999}
+                  step={1}
+                />
+              </Grid.Col>
             ))}
-          </Stack>
+          </Grid>
 
-          <Stack gap="md" mt="md">
-            <NumberInput
-              label="Amount"
-              description="Allowed range: 0-500"
-              placeholder="Enter amount"
-              min={0}
-              max={500}
-              step={5}
-              value={amount}
-              onChange={setAmount}
-              leftSection={<IconPlus size={16} />}
-              rightSection={<Text size="sm">USD</Text>}
-            />
-            <NumberInput
-              placeholder="Disabled number input"
-              disabled
-              value={15}
-            />
-            <NumberInput
-              placeholder="Read-only number input"
-              readonly
-              value={42}
-            />
-            <NumberInput
-              placeholder="With error"
-              value={900}
-              error="Value exceeds allowed range"
-              rightSection={<IconSettings size={16} />}
-            />
-          </Stack>
+          <Grid mt="md" cols={5} gutter="md">
+            <Grid.Col span={1}>
+              <NumberInput
+                label="Amount"
+                description="Allowed range: 0-500"
+                placeholder="Enter amount"
+                min={0}
+                max={500}
+                step={5}
+                value={amount}
+                onChange={setAmount}
+                leftSection={<IconPlus size={16} />}
+                rightSection={<Text size="sm">USD</Text>}
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <NumberInput
+                placeholder="Disabled number input"
+                disabled
+                value={15}
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <NumberInput
+                placeholder="Read-only number input"
+                readonly
+                value={42}
+              />
+            </Grid.Col>
+            <Grid.Col span={1}>
+              <NumberInput
+                placeholder="With error"
+                value={900}
+                error="Value exceeds allowed range"
+                rightSection={<IconSettings size={16} />}
+              />
+            </Grid.Col>
+          </Grid>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Select</Title>
+          <Text fz="sm" fw={700}>
+            Select supports all sizes, labels, validation state and controlled
+            values.
+          </Text>
+
+          <Grid mt="md" cols={12} gutter="md">
+            {SIZES.map((size) => (
+              <Grid.Col key={size} span={2}>
+                <Select
+                  size={size}
+                  label={`${size} size`}
+                  placeholder={`Pick ${size} option`}
+                  data={SIMPLE_SELECT_OPTIONS}
+                />
+              </Grid.Col>
+            ))}
+          </Grid>
+
+          <Grid mt="md" cols={9} gutter="md">
+            <Grid.Col span={3}>
+              <Select
+                label="Framework"
+                description="Choose your frontend framework"
+                placeholder="Select framework"
+                searchable
+                searchPlaceholder="Search framework"
+                data={SELECT_OPTIONS}
+                value={framework}
+                onChange={setFramework}
+                leftSection={<IconStar size={16} />}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={3}>
+              <Select
+                label="Disabled select"
+                placeholder="Cannot choose now"
+                data={SELECT_OPTIONS}
+                disabled
+              />
+            </Grid.Col>
+
+            <Grid.Col span={3}>
+              <Select
+                label="Validation"
+                placeholder="Select required option"
+                data={SELECT_OPTIONS}
+                error={!framework ? "Please select a framework" : undefined}
+                rightSection={<IconSettings size={16} />}
+              />
+            </Grid.Col>
+          </Grid>
         </Stack>
       </Paper>
 

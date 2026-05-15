@@ -158,6 +158,29 @@ This page is generated from component source files in packages/core/src/componen
 | `leftSection?` | `React.ReactNode` | - |
 | `rightSection?` | `React.ReactNode` | - |
 
+## Select
+
+- Source: `packages/core/src/components/Select/Select.tsx`
+- Extends: `Omit< React.SelectHTMLAttributes<HTMLSelectElement>, "size" | "onChange" | "value" | "defaultValue" | "multiple" >`
+- Omit native HTML props: `onChange, value, defaultValue, name, required, form, placeholder`
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `placeholder?` | `string` | - |
+| `size?` | `Token` | `"sm"` |
+| `value?` | `string` | - |
+| `defaultValue?` | `string` | - |
+| `onChange?` | `SelectOnChange = ( value: string, event: React.ChangeEvent<HTMLSelectElement>, ) => void` | - |
+| `data?` | `SelectOption[]` | - |
+| `searchable?` | `boolean` | - |
+| `searchPlaceholder?` | `string` | - |
+| `searchDebounce?` | `number` | - |
+| `error?` | `boolean \| string` | - |
+| `label?` | `React.ReactNode` | - |
+| `description?` | `React.ReactNode` | - |
+| `leftSection?` | `React.ReactNode` | - |
+| `rightSection?` | `React.ReactNode` | - |
+
 ## Text
 
 - Source: `packages/core/src/components/Text/Text.tsx`

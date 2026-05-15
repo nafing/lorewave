@@ -84,6 +84,12 @@ const COMPONENTS = [
     coreComputeConst: "NumberInput",
   },
   {
+    name: "Select",
+    source: "src/components/Select/Select.tsx",
+    propsInterface: "CProps",
+    coreComputeConst: "Select",
+  },
+  {
     name: "Text",
     source: "src/components/Text/Text.tsx",
     propsInterface: "CProps",
