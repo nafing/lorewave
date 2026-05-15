@@ -1,0 +1,26 @@
+.root {
+  display: inline-flex;
+  width: fit-content;
+}
+
+.root:where([data-disabled]) {
+  cursor: default;
+}
+
+.dropdown {
+  position: relative;
+  z-index: 1200;
+  width: var(--popover-width, 16.25rem);
+  max-width: min(var(--popover-width, 16.25rem), calc(100vw - 1rem));
+  padding: 0.7rem;
+  border: 0.0625rem solid var(--lorewave-color-border);
+  border-radius: var(--popover-radius, var(--lorewave-radius-md));
+  background: var(--lorewave-color-paper);
+  color: var(--lorewave-color-text);
+  box-shadow: var(
+    --lorewave-shadow-md,
+    0 0.375rem 1.25rem color-mix(in srgb, var(--lorewave-color-black) 16%, transparent)
+  );
+  font-size: var(--popover-fz, var(--lorewave-font-size-sm));
+  line-height: 1.4;
+}

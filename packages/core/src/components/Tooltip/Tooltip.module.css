@@ -1,0 +1,32 @@
+.root {
+  display: inline-flex;
+  width: fit-content;
+}
+
+.root:where([data-disabled]) {
+  cursor: default;
+}
+
+.tooltip {
+  position: relative;
+  z-index: 1100;
+  max-width: var(--tooltip-max-width, 15rem);
+  padding: 0.35rem 0.55rem;
+  border: 0.0625rem solid color-mix(in srgb, var(--lorewave-color-black) 20%, transparent);
+  border-radius: var(--tooltip-radius, var(--lorewave-radius-sm));
+  background: color-mix(in srgb, var(--lorewave-color-black) 92%, transparent);
+  color: var(--lorewave-color-white);
+  box-shadow: var(
+    --lorewave-shadow-md,
+    0 0.375rem 1.25rem color-mix(in srgb, var(--lorewave-color-black) 18%, transparent)
+  );
+  font-size: calc(var(--tooltip-fz, var(--lorewave-font-size-sm)) * 0.92);
+  font-weight: var(--lorewave-font-weight-medium);
+  line-height: 1.25;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltip:where([data-multiline]) {
+  white-space: normal;
+}

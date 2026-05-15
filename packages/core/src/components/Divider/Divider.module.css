@@ -1,0 +1,66 @@
+.root {
+  --divider-color: var(--lorewave-color-border);
+  --divider-size: 0.0625rem;
+
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: var(--divider-color);
+}
+
+.line {
+  flex: 1 1 auto;
+  height: 0;
+  border-top: var(--divider-size) solid currentColor;
+}
+
+.root:where([data-variant="dashed"]) .line {
+  border-top-style: dashed;
+}
+
+.root:where([data-variant="dotted"]) .line {
+  border-top-style: dotted;
+}
+
+.label {
+  flex: 0 0 auto;
+  padding-inline: 0.625rem;
+  color: var(--lorewave-color-dimmed);
+  font-size: var(--lorewave-font-size-xs);
+  line-height: 1;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.root:where([data-with-label][data-label-position="left"]) .line[data-side="start"] {
+  flex: 0 0 12%;
+  min-width: 1.5rem;
+}
+
+.root:where([data-with-label][data-label-position="right"]) .line[data-side="end"] {
+  flex: 0 0 12%;
+  min-width: 1.5rem;
+}
+
+.root:where([data-orientation="vertical"]) {
+  display: inline-flex;
+  width: auto;
+  min-height: 1.25rem;
+  height: 100%;
+  align-self: stretch;
+}
+
+.root:where([data-orientation="vertical"]) .line {
+  width: 0;
+  height: 100%;
+  border-top: 0;
+  border-left: var(--divider-size) solid currentColor;
+}
+
+.root:where([data-orientation="vertical"][data-variant="dashed"]) .line {
+  border-left-style: dashed;
+}
+
+.root:where([data-orientation="vertical"][data-variant="dotted"]) .line {
+  border-left-style: dotted;
+}

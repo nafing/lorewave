@@ -8,6 +8,11 @@ import {
   TextInput,
   NumberInput,
   Select,
+  MultiSelect,
+  Tooltip,
+  Popover,
+  Menu,
+  Divider,
   Text,
   Title,
   Paper,
@@ -92,6 +97,10 @@ const App = () => {
   );
   const [amount, setAmount] = React.useState<number>(129);
   const [framework, setFramework] = React.useState<string>("");
+  const [frameworks, setFrameworks] = React.useState<string[]>(["react"]);
+  const [popoverOpened, setPopoverOpened] = React.useState(false);
+  const [menuPinned, setMenuPinned] = React.useState(true);
+  const [menuView, setMenuView] = React.useState<"list" | "grid">("list");
 
   return (
     <Box m="xl">
@@ -246,6 +255,203 @@ const App = () => {
 
       <Paper p="xs" mt="xl">
         <Stack>
+          <Title>Tooltip</Title>
+          <Text fz="sm" fw={700}>
+            Tooltip supports hover/focus interactions, positions and multiline
+            content.
+          </Text>
+
+          <Group>
+            <Tooltip label="Simple tooltip">
+              <Button variant="outline">Hover me</Button>
+            </Tooltip>
+
+            <Tooltip label="Tooltip on badge" position="right">
+              <Badge color="info" variant="light">
+                Info
+              </Badge>
+            </Tooltip>
+
+            <Tooltip
+              label="This is a longer tooltip content that can wrap into multiple lines when multiline mode is enabled."
+              position="bottom"
+              multiline
+              maxWidth={220}
+            >
+              <ActionIcon variant="outline" aria-label="help">
+                <IconSettings />
+              </ActionIcon>
+            </Tooltip>
+          </Group>
+
+          <Group>
+            <Tooltip label="Top position" position="top">
+              <Badge variant="outline">Top</Badge>
+            </Tooltip>
+
+            <Tooltip label="Right position" position="right">
+              <Badge variant="outline">Right</Badge>
+            </Tooltip>
+
+            <Tooltip label="Bottom position" position="bottom">
+              <Badge variant="outline">Bottom</Badge>
+            </Tooltip>
+
+            <Tooltip label="Left position" position="left">
+              <Badge variant="outline">Left</Badge>
+            </Tooltip>
+          </Group>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Popover</Title>
+          <Text fz="sm" fw={700}>
+            Popover supports click interactions, controlled mode and custom
+            dropdown content.
+          </Text>
+
+          <Group>
+            <Popover
+              dropdown={
+                <Stack gap="xs">
+                  <Text fw={700}>Quick Actions</Text>
+                  <Button size="xs" variant="light">
+                    Create note
+                  </Button>
+                  <Button size="xs" variant="subtle">
+                    Open settings
+                  </Button>
+                </Stack>
+              }
+            >
+              <Button variant="outline">Open popover</Button>
+            </Popover>
+
+            <Popover
+              position="right"
+              width={220}
+              dropdown={
+                <Stack gap="xs">
+                  <Text fw={700}>Framework</Text>
+                  <Text size="sm" color="var(--lorewave-color-dimmed)">
+                    React is currently selected in the demo state.
+                  </Text>
+                  <Badge variant="light" color="success">
+                    Connected
+                  </Badge>
+                </Stack>
+              }
+            >
+              <Badge variant="outline">Open side popover</Badge>
+            </Popover>
+
+            <Popover
+              opened={popoverOpened}
+              onOpenChange={setPopoverOpened}
+              closeOnClickOutside
+              dropdown={
+                <Stack gap="xs">
+                  <Text fw={700}>Controlled popover</Text>
+                  <Text size="sm">
+                    Open state is controlled from React state.
+                  </Text>
+                  <Button
+                    size="xs"
+                    onClick={() => {
+                      setPopoverOpened(false);
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Stack>
+              }
+            >
+              <ActionIcon
+                aria-label="toggle controlled popover"
+                variant="outline"
+              >
+                <IconSettings />
+              </ActionIcon>
+            </Popover>
+          </Group>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Menu</Title>
+          <Text fz="sm" fw={700}>
+            Menu supports nested actions with Menu.Item, Menu.Sub,
+            Menu.Checkbox, Menu.Radio, Menu.Label and Menu.Divider.
+          </Text>
+
+          <Group>
+            <Menu>
+              <Menu.Target>
+                <Button variant="outline">Open menu</Button>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>File</Menu.Label>
+                <Menu.Item leftSection={<IconPlus size={14} />}>
+                  Create file
+                </Menu.Item>
+                <Menu.Item leftSection={<IconSettings size={14} />}>
+                  Open settings
+                </Menu.Item>
+
+                <Menu.Divider />
+
+                <Menu.Label>Preferences</Menu.Label>
+
+                <Menu.Sub
+                  label="View mode"
+                  leftSection={<IconStar size={14} />}
+                >
+                  <Menu.Radio
+                    name="view-mode"
+                    value="list"
+                    checked={menuView === "list"}
+                    onChange={() => {
+                      setMenuView("list");
+                    }}
+                  >
+                    List view
+                  </Menu.Radio>
+                  <Menu.Radio
+                    name="view-mode"
+                    value="grid"
+                    checked={menuView === "grid"}
+                    onChange={() => {
+                      setMenuView("grid");
+                    }}
+                  >
+                    Grid view
+                  </Menu.Radio>
+                </Menu.Sub>
+
+                <Menu.Checkbox
+                  checked={menuPinned}
+                  onChange={(checked) => {
+                    setMenuPinned(checked);
+                  }}
+                >
+                  Pin to sidebar
+                </Menu.Checkbox>
+              </Menu.Dropdown>
+            </Menu>
+
+            <Text fz="sm" color="var(--lorewave-color-dimmed)">
+              View: {menuView} | Pinned: {menuPinned ? "yes" : "no"}
+            </Text>
+          </Group>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
           <Title>TextInput</Title>
           <Text fz="sm" fw={700}>
             TextInput supports all variants and sizes with proper styling.
@@ -312,6 +518,36 @@ const App = () => {
               />
             </Grid.Col>
           </Grid>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Divider</Title>
+          <Text fz="sm" fw={700}>
+            Divider supports horizontal and vertical orientation with optional
+            labels.
+          </Text>
+
+          <Stack gap="md">
+            <Text fz="sm">Section A content</Text>
+            <Divider />
+            <Text fz="sm">Section B content</Text>
+
+            <Divider label="Centered label" />
+            <Divider label="Label left" labelPosition="left" />
+            <Divider label="Label right" labelPosition="right" />
+
+            <Divider variant="solid" label="Solid" />
+            <Divider variant="dashed" label="Dashed" />
+            <Divider variant="dotted" label="Dotted" />
+
+            <Group align="stretch" h={36} gap="md">
+              <Text fz="sm">Left</Text>
+              <Divider orientation="vertical" />
+              <Text fz="sm">Right</Text>
+            </Group>
+          </Stack>
         </Stack>
       </Paper>
 
@@ -429,6 +665,72 @@ const App = () => {
                 placeholder="Select required option"
                 data={SELECT_OPTIONS}
                 error={!framework ? "Please select a framework" : undefined}
+                rightSection={<IconSettings size={16} />}
+              />
+            </Grid.Col>
+          </Grid>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>MultiSelect</Title>
+          <Text fz="sm" fw={700}>
+            MultiSelect supports selecting many options, searchable filtering
+            and validation state.
+          </Text>
+
+          <Grid mt="md" cols={12} gutter="md">
+            {SIZES.map((size) => (
+              <Grid.Col key={size} span={2}>
+                <MultiSelect
+                  size={size}
+                  label={`${size} size`}
+                  placeholder={`Pick ${size} options`}
+                  data={SIMPLE_SELECT_OPTIONS}
+                  defaultValue={["react"]}
+                />
+              </Grid.Col>
+            ))}
+          </Grid>
+
+          <Grid mt="md" cols={9} gutter="md">
+            <Grid.Col span={3}>
+              <MultiSelect
+                label="Frameworks"
+                description="Choose one or more frontend frameworks"
+                placeholder="Select frameworks"
+                searchable
+                searchPlaceholder="Search frameworks"
+                data={SELECT_OPTIONS}
+                value={frameworks}
+                onChange={setFrameworks}
+                leftSection={<IconStar size={16} />}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={3}>
+              <MultiSelect
+                label="Disabled multi select"
+                placeholder="Cannot choose now"
+                data={SELECT_OPTIONS}
+                value={["react", "vue"]}
+                disabled
+              />
+            </Grid.Col>
+
+            <Grid.Col span={3}>
+              <MultiSelect
+                label="Validation"
+                placeholder="Select at least one option"
+                data={SELECT_OPTIONS}
+                value={frameworks}
+                onChange={setFrameworks}
+                error={
+                  frameworks.length === 0
+                    ? "Please select at least one framework"
+                    : undefined
+                }
                 rightSection={<IconSettings size={16} />}
               />
             </Grid.Col>
