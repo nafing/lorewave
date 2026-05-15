@@ -3,8 +3,7 @@ import { coreCompute } from "../../utils/compute/core";
 import { getSpacing } from "../../utils/get-size";
 import classes from "./Group.module.css";
 
-interface CProps {
-  children?: React.ReactNode;
+interface CProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "color"> {
   gap?: FullToken;
   align?: React.CSSProperties["alignItems"];
   justify?: React.CSSProperties["justifyContent"];

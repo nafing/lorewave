@@ -1,0 +1,152 @@
+.root {
+  --grid-columns: 12;
+  --grid-gutter-x: var(--lorewave-spacing-md);
+  --grid-gutter-y: var(--lorewave-spacing-md);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: var(--grid-align, stretch);
+  justify-content: var(--grid-justify, flex-start);
+  column-gap: var(--grid-gutter-x);
+  row-gap: var(--grid-gutter-y);
+}
+
+.col {
+  --grid-col-span-active: var(--grid-col-span-base, var(--grid-columns, 12));
+  --grid-col-offset-active: var(--grid-col-offset-base, 0);
+  --grid-col-order-active: var(--grid-col-order-base, 0);
+
+  min-width: 0;
+  flex: 0 0 auto;
+  order: var(--grid-col-order-active);
+  margin-inline-start: calc(
+    (100% / var(--grid-columns, 12)) * var(--grid-col-offset-active) +
+      var(--grid-gutter-x) *
+      (var(--grid-col-offset-active) / var(--grid-columns, 12))
+  );
+  flex-basis: calc(
+    (100% / var(--grid-columns, 12)) * var(--grid-col-span-active) -
+      var(--grid-gutter-x) *
+      ((var(--grid-columns, 12) - var(--grid-col-span-active)) / var(--grid-columns, 12))
+  );
+  max-width: calc(
+    (100% / var(--grid-columns, 12)) * var(--grid-col-span-active) -
+      var(--grid-gutter-x) *
+      ((var(--grid-columns, 12) - var(--grid-col-span-active)) / var(--grid-columns, 12))
+  );
+}
+
+@media (min-width: 36em) {
+  .col {
+    --grid-col-span-active: var(
+      --grid-col-span-xs,
+      var(--grid-col-span-base, var(--grid-columns, 12))
+    );
+    --grid-col-offset-active: var(--grid-col-offset-xs, var(--grid-col-offset-base, 0));
+    --grid-col-order-active: var(--grid-col-order-xs, var(--grid-col-order-base, 0));
+  }
+}
+
+@media (min-width: 48em) {
+  .col {
+    --grid-col-span-active: var(
+      --grid-col-span-sm,
+      var(--grid-col-span-xs, var(--grid-col-span-base, var(--grid-columns, 12)))
+    );
+    --grid-col-offset-active: var(
+      --grid-col-offset-sm,
+      var(--grid-col-offset-xs, var(--grid-col-offset-base, 0))
+    );
+    --grid-col-order-active: var(
+      --grid-col-order-sm,
+      var(--grid-col-order-xs, var(--grid-col-order-base, 0))
+    );
+  }
+}
+
+@media (min-width: 62em) {
+  .col {
+    --grid-col-span-active: var(
+      --grid-col-span-md,
+      var(
+        --grid-col-span-sm,
+        var(--grid-col-span-xs, var(--grid-col-span-base, var(--grid-columns, 12)))
+      )
+    );
+    --grid-col-offset-active: var(
+      --grid-col-offset-md,
+      var(--grid-col-offset-sm, var(--grid-col-offset-xs, var(--grid-col-offset-base, 0)))
+    );
+    --grid-col-order-active: var(
+      --grid-col-order-md,
+      var(--grid-col-order-sm, var(--grid-col-order-xs, var(--grid-col-order-base, 0)))
+    );
+  }
+}
+
+@media (min-width: 75em) {
+  .col {
+    --grid-col-span-active: var(
+      --grid-col-span-lg,
+      var(
+        --grid-col-span-md,
+        var(
+          --grid-col-span-sm,
+          var(--grid-col-span-xs, var(--grid-col-span-base, var(--grid-columns, 12)))
+        )
+      )
+    );
+    --grid-col-offset-active: var(
+      --grid-col-offset-lg,
+      var(
+        --grid-col-offset-md,
+        var(--grid-col-offset-sm, var(--grid-col-offset-xs, var(--grid-col-offset-base, 0)))
+      )
+    );
+    --grid-col-order-active: var(
+      --grid-col-order-lg,
+      var(
+        --grid-col-order-md,
+        var(--grid-col-order-sm, var(--grid-col-order-xs, var(--grid-col-order-base, 0)))
+      )
+    );
+  }
+}
+
+@media (min-width: 88em) {
+  .col {
+    --grid-col-span-active: var(
+      --grid-col-span-xl,
+      var(
+        --grid-col-span-lg,
+        var(
+          --grid-col-span-md,
+          var(
+            --grid-col-span-sm,
+            var(--grid-col-span-xs, var(--grid-col-span-base, var(--grid-columns, 12)))
+          )
+        )
+      )
+    );
+    --grid-col-offset-active: var(
+      --grid-col-offset-xl,
+      var(
+        --grid-col-offset-lg,
+        var(
+          --grid-col-offset-md,
+          var(--grid-col-offset-sm, var(--grid-col-offset-xs, var(--grid-col-offset-base, 0)))
+        )
+      )
+    );
+    --grid-col-order-active: var(
+      --grid-col-order-xl,
+      var(
+        --grid-col-order-lg,
+        var(
+          --grid-col-order-md,
+          var(--grid-col-order-sm, var(--grid-col-order-xs, var(--grid-col-order-base, 0)))
+        )
+      )
+    );
+  }
+}

@@ -6,14 +6,13 @@ import { getFontSize, getRadius, getSize } from "../../utils/get-size";
 import { ButtonGroup } from "./ButtonGroup";
 import classes from "./Button.module.css";
 
-interface CProps {
-  children: React.ReactNode;
+interface CProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
+  children?: React.ReactNode;
   size?: Token;
   variant?: Variant;
   leftSection?: React.ReactNode;
   rightSection?: React.ReactNode;
   loading?: boolean;
-  disabled?: boolean;
   fullWidth?: boolean;
 }
 
@@ -67,9 +66,14 @@ const ButtonRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
     },
   },
   (props, slot) => {
+    const rootProps =
+      slot.root as React.ButtonHTMLAttributes<HTMLButtonElement>;
+    const { type = "button", ...restRootProps } = rootProps;
+
     return (
       <button
-        {...slot.root}
+        {...restRootProps}
+        type={type}
         aria-busy={props.loading}
         disabled={props.disabled || props.loading}
       >

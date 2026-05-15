@@ -3,8 +3,7 @@ import { coreCompute } from "../../utils/compute/core";
 import { getRadius } from "../../utils/get-size";
 import classes from "./Button.module.css";
 
-interface CProps {
-  children?: React.ReactNode;
+interface CProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "color"> {
   radius?: FullToken;
 }
 

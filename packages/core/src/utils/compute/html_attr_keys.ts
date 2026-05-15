@@ -1,4 +1,7 @@
-export const HTML_ATTR_KEYS = new Set<keyof React.HTMLAttributes<HTMLElement>>([
+export const HTML_ATTR_KEYS = new Set<
+  | keyof React.HTMLAttributes<HTMLElement>
+  | keyof React.InputHTMLAttributes<HTMLElement>
+>([
   // Core
   "id",
   "slot",
@@ -15,6 +18,29 @@ export const HTML_ATTR_KEYS = new Set<keyof React.HTMLAttributes<HTMLElement>>([
   "autoCapitalize",
   "autoCorrect",
   "inputMode",
+  "value",
+  "defaultValue",
+  "defaultChecked",
+  "checked",
+  "readOnly",
+  "disabled",
+  "autoFocus",
+  "autoComplete",
+  "required",
+  "name",
+  "type",
+  "min",
+  "max",
+  "step",
+  "minLength",
+  "maxLength",
+  "pattern",
+  "form",
+  "formAction",
+  "formEncType",
+  "formMethod",
+  "formNoValidate",
+  "formTarget",
 
   // Data & ARIA — te są stringami, nie wchodzą do keyof, obsłuż osobno
   // "data-*", "aria-*"

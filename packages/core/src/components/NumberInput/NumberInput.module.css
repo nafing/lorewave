@@ -1,0 +1,128 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: var(--number-input-fz);
+  font-weight: var(--lorewave-font-weight-medium);
+  color: var(--lorewave-color-text);
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  min-height: var(--number-input-height);
+  padding-inline: var(--number-input-padding-x);
+  border: 0.0625rem solid var(--lorewave-color-border);
+  border-radius: var(--number-input-radius, var(--lorewave-radius-md));
+  background: var(--lorewave-color-paper);
+  color: var(--lorewave-color-text);
+  font-size: var(--number-input-fz);
+  font-weight: var(--lorewave-font-weight-regular);
+  line-height: 1.5;
+  font-family: var(--lorewave-font-family-mono);
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease,
+    color 120ms ease;
+
+  &::placeholder {
+    color: var(--lorewave-color-dimmed);
+    opacity: 1;
+  }
+
+  &:where(:focus) {
+    outline: none;
+    border-color: var(--lorewave-color-primary);
+  }
+
+  &:where(:hover):not(:disabled):not([readonly]) {
+    border-color: var(--lorewave-color-primary);
+  }
+
+  &:where(:disabled) {
+    color: var(--lorewave-color-disabled);
+    border-color: var(--lorewave-color-disabled-background);
+    background: var(--lorewave-color-disabled-background);
+    cursor: not-allowed;
+  }
+
+  &:where([readonly]) {
+    cursor: default;
+    background: var(--lorewave-color-body);
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  .wrapper:where([data-with-left-section]) & {
+    padding-inline-start: calc(
+      var(--number-input-padding-x) * 2 + var(--number-input-section-size, 1rem)
+    );
+  }
+
+  .wrapper:where([data-with-right-section]) & {
+    padding-inline-end: calc(
+      var(--number-input-padding-x) * 2 + var(--number-input-section-size, 1rem)
+    );
+  }
+}
+
+.leftSection,
+.rightSection {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: var(--number-input-section-size, 1rem);
+  margin-inline: var(--number-input-padding-x);
+  color: var(--lorewave-color-dimmed);
+  pointer-events: none;
+}
+
+.leftSection {
+  inset-inline-start: 0;
+}
+
+.rightSection {
+  inset-inline-end: 0;
+}
+
+.description {
+  font-size: var(--number-input-fz);
+  color: var(--lorewave-color-dimmed);
+  margin-top: -0.125rem;
+}
+
+.error {
+  font-size: var(--number-input-fz);
+  color: var(--lorewave-color-error);
+  margin-top: -0.125rem;
+}
+
+.root:where([data-error]) .wrapper .input {
+  border-color: var(--lorewave-color-error);
+
+  &:where(:focus) {
+    border-color: var(--lorewave-color-error);
+  }
+}

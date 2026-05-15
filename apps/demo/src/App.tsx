@@ -2,8 +2,10 @@ import {
   ActionIcon,
   Box,
   Group,
+  Grid,
   Button,
   TextInput,
+  NumberInput,
   Text,
   Title,
   Paper,
@@ -43,7 +45,10 @@ const COLORS: Colors[] = [
 ];
 
 const App = () => {
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState<string>(
+    "nafingone@gmail.com",
+  );
+  const [amount, setAmount] = React.useState<number>(129);
 
   return (
     <Box m="xl">
@@ -166,7 +171,13 @@ const App = () => {
               label="Email"
               placeholder="Enter your email"
               description="We'll never share your email"
-              error="Invalid email address"
+              error={
+                inputValue && !inputValue.includes("@")
+                  ? "Invalid email address"
+                  : undefined
+              }
+              value={inputValue}
+              onChange={setInputValue}
             />
             <TextInput
               label="Password"
@@ -190,6 +201,163 @@ const App = () => {
               rightSection={<IconArrowLeft size={16} />}
             />
           </Stack>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>NumberInput</Title>
+          <Text fz="sm" fw={700}>
+            NumberInput supports sizing, constraints and controlled values.
+          </Text>
+
+          <Stack gap="md">
+            {SIZES.map((size) => (
+              <NumberInput
+                key={size}
+                size={size}
+                label={`${size} size`}
+                placeholder={`${size} size number`}
+                min={0}
+                max={999}
+                step={1}
+              />
+            ))}
+          </Stack>
+
+          <Stack gap="md" mt="md">
+            <NumberInput
+              label="Amount"
+              description="Allowed range: 0-500"
+              placeholder="Enter amount"
+              min={0}
+              max={500}
+              step={5}
+              value={amount}
+              onChange={setAmount}
+              leftSection={<IconPlus size={16} />}
+              rightSection={<Text size="sm">USD</Text>}
+            />
+            <NumberInput
+              placeholder="Disabled number input"
+              disabled
+              value={15}
+            />
+            <NumberInput
+              placeholder="Read-only number input"
+              readonly
+              value={42}
+            />
+            <NumberInput
+              placeholder="With error"
+              value={900}
+              error="Value exceeds allowed range"
+              rightSection={<IconSettings size={16} />}
+            />
+          </Stack>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Grid</Title>
+          <Text fz="sm" fw={700}>
+            Grid and Grid.Col support responsive span, offset and order via
+            breakpoints.
+          </Text>
+
+          <Grid cols={12} gutter="md">
+            <Grid.Col span={12}>
+              <Box
+                p="md"
+                bg="var(--lorewave-color-paper)"
+                bd="1px solid var(--lorewave-color-border)"
+                radius="sm"
+              >
+                <Text size="sm" fw={700}>
+                  span=12
+                </Text>
+              </Box>
+            </Grid.Col>
+
+            <Grid.Col
+              span={12}
+              breakpoints={{
+                sm: 6,
+                lg: 4,
+              }}
+            >
+              <Box
+                p="md"
+                bg="var(--lorewave-color-paper)"
+                bd="1px solid var(--lorewave-color-border)"
+                radius="sm"
+              >
+                <Text size="sm">12 / sm:6 / lg:4</Text>
+              </Box>
+            </Grid.Col>
+
+            <Grid.Col
+              span={12}
+              breakpoints={{
+                sm: 6,
+                lg: 4,
+              }}
+            >
+              <Box
+                p="md"
+                bg="var(--lorewave-color-paper)"
+                bd="1px solid var(--lorewave-color-border)"
+                radius="sm"
+              >
+                <Text size="sm">12 / sm:6 / lg:4</Text>
+              </Box>
+            </Grid.Col>
+
+            <Grid.Col
+              span={12}
+              breakpoints={{
+                sm: 12,
+                lg: {
+                  span: 3,
+                  offset: 1,
+                },
+                xl: {
+                  span: 2,
+                  offset: 2,
+                },
+              }}
+            >
+              <Box
+                p="md"
+                bg="var(--lorewave-color-paper)"
+                bd="1px solid var(--lorewave-color-border)"
+                radius="sm"
+              >
+                <Text size="sm">offset on lg/xl</Text>
+              </Box>
+            </Grid.Col>
+
+            <Grid.Col
+              span={12}
+              breakpoints={{
+                xs: 6,
+                md: {
+                  span: 4,
+                  order: -1,
+                },
+              }}
+            >
+              <Box
+                p="md"
+                bg="var(--lorewave-color-paper)"
+                bd="1px solid var(--lorewave-color-border)"
+                radius="sm"
+              >
+                <Text size="sm">xs:6, md:4 order:-1</Text>
+              </Box>
+            </Grid.Col>
+          </Grid>
         </Stack>
       </Paper>
 

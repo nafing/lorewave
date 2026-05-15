@@ -6,12 +6,11 @@ import { getRadius, getSize } from "../../utils/get-size";
 import { ActionIconGroup } from "./ActionIconGroup";
 import classes from "./ActionIcon.module.css";
 
-interface CProps {
-  children: React.ReactNode;
+interface CProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
+  children?: React.ReactNode;
   size?: Token;
   variant?: Variant;
   loading?: boolean;
-  disabled?: boolean;
 }
 
 type CSlots = "root" | "loader" | "inner";

@@ -1,24 +1,23 @@
 import type { Token } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getFontSize, getRadius, getSize } from "../../utils/get-size";
-import classes from "./TextInput.module.css";
+import classes from "./NumberInput.module.css";
 
-type TextInputOnChange = (
-  value: string,
+type NumberInputOnChange = (
+  value: number,
   event: React.ChangeEvent<HTMLInputElement>,
 ) => void;
 
-interface CProps extends Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "size" | "onChange" | "value" | "defaultValue"
-> {
-  placeholder?: string;
-  disabled?: boolean;
+interface CProps
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "size" | "type" | "onChange" | "value" | "defaultValue"
+  > {
   readonly?: boolean;
   size?: Token;
-  value?: string;
-  defaultValue?: string;
-  onChange?: TextInputOnChange;
+  value?: number;
+  defaultValue?: number;
+  onChange?: NumberInputOnChange;
   error?: boolean | string;
   label?: React.ReactNode;
   description?: React.ReactNode;
@@ -36,7 +35,7 @@ type CSlots =
   | "description"
   | "error";
 
-export const TextInput = coreCompute<CProps, CSlots, HTMLInputElement>(
+export const NumberInput = coreCompute<CProps, CSlots, HTMLInputElement>(
   {
     classes,
     nativeSlot: "input",
@@ -49,10 +48,10 @@ export const TextInput = coreCompute<CProps, CSlots, HTMLInputElement>(
     vars({ size, radius }) {
       return {
         root: {
-          "--text-input-height": getSize(size, "button-height"),
-          "--text-input-padding-x": getSize(size, "button-padding-x"),
-          "--text-input-fz": getFontSize(size),
-          "--text-input-radius":
+          "--number-input-height": getSize(size, "button-height"),
+          "--number-input-padding-x": getSize(size, "button-padding-x"),
+          "--number-input-fz": getFontSize(size),
+          "--number-input-radius":
             radius === undefined ? undefined : getRadius(radius),
         },
       };
@@ -91,15 +90,19 @@ export const TextInput = coreCompute<CProps, CSlots, HTMLInputElement>(
           )}
           <input
             {...slot.input}
-            type="text"
+            type="number"
+            name={props.name}
+            min={props.min}
+            max={props.max}
+            step={props.step}
             placeholder={props.placeholder}
             value={props.value}
             defaultValue={props.defaultValue}
             disabled={props.disabled}
-            readOnly={props.readonly || props.readOnly}
-            aria-invalid={!!props.error}
+            readOnly={props.readOnly || props.readonly}
+            aria-invalid={props["aria-invalid"] ?? !!props.error}
             onChange={(event) => {
-              props.onChange?.(event.currentTarget.value, event);
+              props.onChange?.(event.currentTarget.valueAsNumber, event);
             }}
           />
 

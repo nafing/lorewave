@@ -4,7 +4,18 @@ import { getCoreStyle } from "./core-style";
 import { HTML_ATTR_KEYS } from "./html_attr_keys";
 
 type FULL_HTML<H extends HTMLElement> = Omit<
-  React.DetailedHTMLProps<React.HTMLAttributes<H>, H>,
+  React.DetailedHTMLProps<
+    H extends HTMLButtonElement
+      ? React.ButtonHTMLAttributes<H>
+      : H extends HTMLInputElement
+        ? React.InputHTMLAttributes<H>
+        : H extends HTMLTextAreaElement
+          ? React.TextareaHTMLAttributes<H>
+          : H extends HTMLSelectElement
+            ? React.SelectHTMLAttributes<H>
+            : React.HTMLAttributes<H>,
+    H
+  >,
   "className" | "style"
 >;
 
@@ -19,6 +30,7 @@ interface CoreComputeOptions<CProps, CSlots extends string> {
   styleSlot: CSlots;
   defaultProps?: Partial<CProps> & CoreStyleProps;
   omitProps?: (keyof CoreStyleProps)[];
+  omitHTMLProps?: string[];
   vars?: (
     props: CProps & CoreStyleProps,
   ) => Partial<Record<CSlots, Record<string, unknown>>>;
@@ -59,7 +71,10 @@ export const coreCompute = <CProps, CSlots extends string, CHtml>(
   return (
     props: CProps &
       CoreStyleProps &
-      FULL_HTML<CHtml extends HTMLElement ? CHtml : HTMLElement> &
+      Omit<
+        FULL_HTML<CHtml extends HTMLElement ? CHtml : HTMLElement>,
+        keyof CProps
+      > &
       CoreSlotProps<CSlots>,
   ) => {
     const mergedProps = { ...options.defaultProps, ...props };
@@ -87,9 +102,19 @@ export const coreCompute = <CProps, CSlots extends string, CHtml>(
       const slotObj: Record<string, unknown> = {};
 
       if (slot === options.nativeSlot) {
+        const nativeProps = mergedProps as Record<string, unknown>;
+        const filteredNativeProps =
+          options.omitHTMLProps && options.omitHTMLProps.length > 0
+            ? Object.fromEntries(
+                Object.entries(nativeProps).filter(
+                  ([key]) => !options.omitHTMLProps!.includes(key),
+                ),
+              )
+            : nativeProps;
+
         Object.assign(
           slotObj,
-          getHTMLAttributes(mergedProps as Record<string, unknown>),
+          getHTMLAttributes(filteredNativeProps),
         );
       }
 

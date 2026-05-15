@@ -54,8 +54,14 @@ export const getBorder = (value: unknown) => {
       .split(" ")
       .filter((val) => val.trim() !== "");
     let result = `${rem(size)}`;
-    style && (result += ` ${style}`);
-    colorTuple.length > 0 && (result += ` ${getColor(colorTuple.join(" "))}`);
+    if (style) {
+      result += ` ${style}`;
+    }
+
+    if (colorTuple.length > 0) {
+      result += ` ${getColor(colorTuple.join(" "))}`;
+    }
+
     return result.trim();
   }
 
