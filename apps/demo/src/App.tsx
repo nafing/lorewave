@@ -194,6 +194,58 @@ const App = () => {
 
       <Paper p="xs" mt="xl">
         <Stack>
+          <Title>Badge</Title>
+          <Text fz="sm" fw={700}>
+            Badge supports all sizes, variants, colors and section content.
+          </Text>
+
+          <Group>
+            {SIZES.map((size) => (
+              <Badge key={size} size={size}>
+                {size} BADGE
+              </Badge>
+            ))}
+          </Group>
+
+          <Group>
+            {VARIANTS.map((variant) => (
+              <Badge key={variant} variant={variant}>
+                {variant} BADGE
+              </Badge>
+            ))}
+          </Group>
+
+          <Group>
+            {COLORS.map((color) => (
+              <Badge key={color} color={color}>
+                {color} BADGE
+              </Badge>
+            ))}
+
+            <Badge color="#ff69b4">#ff69b4 BADGE</Badge>
+          </Group>
+
+          <Group wrap="nowrap">
+            <Badge
+              leftSection={<IconStar size={12} />}
+              rightSection={<IconArrowLeft size={12} />}
+            >
+              With sections
+            </Badge>
+
+            <Badge variant="outline" maw={180}>
+              Badge with longer content
+            </Badge>
+
+            <Badge fullWidth color="success" variant="filled">
+              Full width
+            </Badge>
+          </Group>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
           <Title>TextInput</Title>
           <Text fz="sm" fw={700}>
             TextInput supports all variants and sizes with proper styling.
