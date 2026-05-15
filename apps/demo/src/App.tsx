@@ -3,6 +3,7 @@ import {
   Box,
   Group,
   Button,
+  TextInput,
   Text,
   Title,
   Paper,
@@ -19,6 +20,7 @@ import type {
   Token,
   Variant,
 } from "../../../packages/core/src/types/core";
+import React from "react";
 
 const VARIANTS: Variant[] = [
   "filled",
@@ -41,6 +43,8 @@ const COLORS: Colors[] = [
 ];
 
 const App = () => {
+  const [inputValue, setInputValue] = React.useState("");
+
   return (
     <Box m="xl">
       <Title order={2} mb="md">
@@ -90,34 +94,104 @@ const App = () => {
         </Stack>
       </Paper>
 
-      <Text mb="sm">ActionIcon</Text>
-      <ActionIcon.Group radius="xl">
-        <ActionIcon aria-label="Create item">
-          <IconPlus />
-        </ActionIcon>
-        <ActionIcon
-          variant="light"
-          color="secondary"
-          size="xs"
-          aria-label="Open settings"
-        >
-          <IconSettings />
-        </ActionIcon>
-        <ActionIcon
-          variant="outline"
-          color="error"
-          radius="xl"
-          aria-label="Favorite"
-        >
-          <IconStar />
-        </ActionIcon>
-        <ActionIcon loading aria-label="Loading action">
-          <IconPlus />
-        </ActionIcon>
-        <ActionIcon disabled aria-label="Disabled action">
-          <IconSettings />
-        </ActionIcon>
-      </ActionIcon.Group>
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>ActionIcon</Title>
+          <Text fz="sm" fw={700}>
+            ActionIcon supports all variants and sizes, as well as the new
+            loading state.
+          </Text>
+          <Group>
+            {SIZES.map((size) => (
+              <ActionIcon key={size} size={size}>
+                <IconStar />
+              </ActionIcon>
+            ))}
+          </Group>
+
+          <Group>
+            {VARIANTS.map((variant) => (
+              <ActionIcon key={variant} variant={variant}>
+                <IconSettings />
+              </ActionIcon>
+            ))}
+          </Group>
+
+          <Group>
+            {COLORS.map((color) => (
+              <ActionIcon key={color} color={color}>
+                <IconPlus />
+              </ActionIcon>
+            ))}
+
+            <ActionIcon color="#ff69b4">
+              <IconPlus />
+            </ActionIcon>
+          </Group>
+
+          <ActionIcon.Group radius="xl">
+            <ActionIcon>
+              <IconArrowLeft />
+            </ActionIcon>
+            <ActionIcon disabled>
+              <IconArrowLeft />
+            </ActionIcon>
+            <ActionIcon loading>
+              <IconArrowLeft />
+            </ActionIcon>
+          </ActionIcon.Group>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>TextInput</Title>
+          <Text fz="sm" fw={700}>
+            TextInput supports all variants and sizes with proper styling.
+          </Text>
+
+          <Stack gap="md">
+            {SIZES.map((size) => (
+              <TextInput
+                key={size}
+                size={size}
+                label={`${size} size`}
+                placeholder={`${size} size input`}
+              />
+            ))}
+          </Stack>
+
+          <Stack gap="md" mt="md">
+            <TextInput
+              label="Email"
+              placeholder="Enter your email"
+              description="We'll never share your email"
+              error="Invalid email address"
+            />
+            <TextInput
+              label="Password"
+              placeholder="Enter password"
+              error="Password must be at least 8 characters"
+            />
+            <TextInput placeholder="Disabled input" disabled />
+            <TextInput placeholder="Read-only input" readonly />
+            <TextInput
+              placeholder="With left section"
+              leftSection={<IconStar size={16} />}
+            />
+            <TextInput
+              placeholder="With right section"
+              rightSection={<IconSettings size={16} />}
+            />
+            <TextInput
+              label="With both sections"
+              placeholder="Search..."
+              leftSection={<IconStar size={16} />}
+              rightSection={<IconArrowLeft size={16} />}
+            />
+          </Stack>
+        </Stack>
+      </Paper>
 
       <Group mt="xl">
         <Text size="sm">Standard Group nadal dziala do layoutu.</Text>
