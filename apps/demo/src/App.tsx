@@ -1,6 +1,10 @@
 import {
   ActionIcon,
   Badge,
+  Checkbox,
+  Radio,
+  Switch,
+  Slider,
   Box,
   Group,
   Grid,
@@ -98,6 +102,15 @@ const App = () => {
   const [amount, setAmount] = React.useState<number>(129);
   const [framework, setFramework] = React.useState<string>("");
   const [frameworks, setFrameworks] = React.useState<string[]>(["react"]);
+  const [acceptTerms, setAcceptTerms] = React.useState(false);
+  const [productUpdates, setProductUpdates] = React.useState(true);
+  const [autoSync, setAutoSync] = React.useState(true);
+  const [usageAnalytics, setUsageAnalytics] = React.useState(false);
+  const [volume, setVolume] = React.useState<number>(72);
+  const [brightness, setBrightness] = React.useState<number>(38);
+  const [notificationChannel, setNotificationChannel] = React.useState<
+    "email" | "sms"
+  >("email");
   const [popoverOpened, setPopoverOpened] = React.useState(false);
   const [menuPinned, setMenuPinned] = React.useState(true);
   const [menuView, setMenuView] = React.useState<"list" | "grid">("list");
@@ -395,10 +408,16 @@ const App = () => {
 
               <Menu.Dropdown>
                 <Menu.Label>File</Menu.Label>
-                <Menu.Item leftSection={<IconPlus size={14} />}>
+                <Menu.Item
+                  leftSection={<IconPlus size={14} />}
+                  description="Create a new draft in current workspace"
+                >
                   Create file
                 </Menu.Item>
-                <Menu.Item leftSection={<IconSettings size={14} />}>
+                <Menu.Item
+                  leftSection={<IconSettings size={14} />}
+                  description="Open preferences and account configuration"
+                >
                   Open settings
                 </Menu.Item>
 
@@ -413,6 +432,7 @@ const App = () => {
                   <Menu.Radio
                     name="view-mode"
                     value="list"
+                    description="Single column with detailed rows"
                     checked={menuView === "list"}
                     onChange={() => {
                       setMenuView("list");
@@ -423,6 +443,7 @@ const App = () => {
                   <Menu.Radio
                     name="view-mode"
                     value="grid"
+                    description="Two-column compact card view"
                     checked={menuView === "grid"}
                     onChange={() => {
                       setMenuView("grid");
@@ -433,6 +454,7 @@ const App = () => {
                 </Menu.Sub>
 
                 <Menu.Checkbox
+                  description="Keep this menu pinned in quick access"
                   checked={menuPinned}
                   onChange={(checked) => {
                     setMenuPinned(checked);
@@ -523,6 +545,64 @@ const App = () => {
 
       <Paper p="xs" mt="xl">
         <Stack>
+          <Title>Checkbox</Title>
+          <Text fz="sm" fw={700}>
+            Checkbox supports controlled and uncontrolled usage, labels,
+            descriptions, readonly/disabled states and indeterminate mode.
+          </Text>
+
+          <Grid mt="md" cols={5} gutter="md">
+            {SIZES.map((size) => (
+              <Grid.Col key={size} span={1}>
+                <Checkbox
+                  size={size}
+                  label={`${size} size checkbox`}
+                  defaultChecked={size === "md"}
+                />
+              </Grid.Col>
+            ))}
+          </Grid>
+
+          <Grid mt="md" cols={5} gutter="md">
+            <Grid.Col span={1}>
+              <Checkbox
+                label="Accept terms"
+                description="Required to continue"
+                checked={acceptTerms}
+                onChange={setAcceptTerms}
+                error={!acceptTerms ? "Please accept terms" : undefined}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Checkbox
+                label="Product updates"
+                checked={productUpdates}
+                onChange={setProductUpdates}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Checkbox
+                label="Indeterminate example"
+                description="Partially selected group"
+                indeterminate
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Checkbox label="Disabled" disabled defaultChecked />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Checkbox label="Read-only" readonly defaultChecked />
+            </Grid.Col>
+          </Grid>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
           <Title>Divider</Title>
           <Text fz="sm" fw={700}>
             Divider supports horizontal and vertical orientation with optional
@@ -548,6 +628,222 @@ const App = () => {
               <Text fz="sm">Right</Text>
             </Group>
           </Stack>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Switch</Title>
+          <Text fz="sm" fw={700}>
+            Switch supports controlled and uncontrolled usage, labels,
+            descriptions and readonly/disabled states.
+          </Text>
+
+          <Grid mt="md" cols={5} gutter="md">
+            {SIZES.map((size) => (
+              <Grid.Col key={size} span={1}>
+                <Switch
+                  size={size}
+                  label={`${size} size switch`}
+                  defaultChecked={size === "md"}
+                  description="Switch description"
+                />
+              </Grid.Col>
+            ))}
+          </Grid>
+
+          <Grid mt="md" cols={5} gutter="md">
+            <Grid.Col span={1}>
+              <Switch
+                label="Auto sync"
+                description="Keep project changes synchronized"
+                checked={autoSync}
+                onChange={setAutoSync}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Switch
+                label="Usage analytics"
+                description="Help us improve developer experience"
+                checked={usageAnalytics}
+                onChange={setUsageAnalytics}
+                error={!usageAnalytics ? "Recommended for better diagnostics" : undefined}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Switch
+                label="Disabled switch"
+                description="Interaction is blocked"
+                disabled
+                defaultChecked
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Switch
+                label="Read-only switch"
+                description="Visible state without editing"
+                readonly
+                defaultChecked
+              />
+            </Grid.Col>
+          </Grid>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Radio</Title>
+          <Text fz="sm" fw={700}>
+            Radio supports controlled and uncontrolled usage, labels,
+            descriptions, readonly/disabled states and native radio grouping.
+          </Text>
+
+          <Grid mt="md" cols={5} gutter="md">
+            {SIZES.map((size) => (
+              <Grid.Col key={size} span={1}>
+                <Radio
+                  size={size}
+                  name={`size-radio-${size}`}
+                  label={`${size} size radio`}
+                  defaultChecked={size === "md"}
+                />
+              </Grid.Col>
+            ))}
+          </Grid>
+
+          <Grid mt="md" cols={5} gutter="md">
+            <Grid.Col span={1}>
+              <Stack gap="xs">
+                <Radio
+                  name="notification-channel"
+                  label="Email"
+                  description="Primary communication channel"
+                  checked={notificationChannel === "email"}
+                  onChange={(checked) => {
+                    if (checked) {
+                      setNotificationChannel("email");
+                    }
+                  }}
+                />
+                <Radio
+                  name="notification-channel"
+                  label="SMS"
+                  description="Short mobile notifications"
+                  checked={notificationChannel === "sms"}
+                  onChange={(checked) => {
+                    if (checked) {
+                      setNotificationChannel("sms");
+                    }
+                  }}
+                  error={
+                    notificationChannel !== "email" &&
+                    notificationChannel !== "sms"
+                      ? "Please select a channel"
+                      : undefined
+                  }
+                />
+              </Stack>
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Radio
+                name="shipping-speed"
+                label="Express"
+                description="Disabled option"
+                disabled
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Radio
+                name="privacy-scope"
+                label="Internal only"
+                description="Read-only selected option"
+                readonly
+                defaultChecked
+              />
+            </Grid.Col>
+          </Grid>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Slider</Title>
+          <Text fz="sm" fw={700}>
+            Slider supports controlled and uncontrolled usage, labels,
+            descriptions, constraints and readonly/disabled states.
+          </Text>
+
+          <Grid mt="md" cols={5} gutter="md">
+            {SIZES.map((size) => (
+              <Grid.Col key={size} span={1}>
+                <Slider
+                  size={size}
+                  label={`${size} size`}
+                  description="Default range 0-100"
+                  defaultValue={size === "md" ? 60 : 35}
+                />
+              </Grid.Col>
+            ))}
+          </Grid>
+
+          <Grid mt="md" cols={5} gutter="md">
+            <Grid.Col span={2}>
+              <Stack gap="xs">
+                <Slider
+                  label="Volume"
+                  description="Output level"
+                  min={0}
+                  max={100}
+                  step={1}
+                  value={volume}
+                  onChange={setVolume}
+                />
+                <Text fz="sm" color="var(--lorewave-color-dimmed)">
+                  Volume: {volume}%
+                </Text>
+              </Stack>
+            </Grid.Col>
+
+            <Grid.Col span={2}>
+              <Stack gap="xs">
+                <Slider
+                  label="Brightness"
+                  description="Display light"
+                  min={10}
+                  max={90}
+                  step={5}
+                  value={brightness}
+                  onChange={setBrightness}
+                  error={brightness < 20 ? "Brightness is too low" : undefined}
+                />
+                <Text fz="sm" color="var(--lorewave-color-dimmed)">
+                  Brightness: {brightness}
+                </Text>
+              </Stack>
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <Stack gap="xs">
+                <Slider
+                  label="Disabled"
+                  description="No interaction"
+                  disabled
+                  defaultValue={50}
+                />
+                <Slider
+                  label="Read-only"
+                  description="Visible current state"
+                  readonly
+                  defaultValue={65}
+                />
+              </Stack>
+            </Grid.Col>
+          </Grid>
         </Stack>
       </Paper>
 

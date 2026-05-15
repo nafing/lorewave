@@ -71,6 +71,7 @@ interface MenuItemProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
   leftSection?: React.ReactNode;
   rightSection?: React.ReactNode;
+  description?: React.ReactNode;
   closeMenuOnClick?: boolean;
 }
 
@@ -111,6 +112,7 @@ const MenuItem = (props: MenuItemProps) => {
   const {
     leftSection,
     rightSection,
+    description,
     closeMenuOnClick,
     className,
     onClick,
@@ -129,6 +131,7 @@ const MenuItem = (props: MenuItemProps) => {
       role="menuitem"
       className={cx(classes.item, className)}
       data-disabled={disabled || undefined}
+      data-with-description={!!description || undefined}
       disabled={disabled}
       onClick={(event) => {
         onClick?.(event);
@@ -143,7 +146,12 @@ const MenuItem = (props: MenuItemProps) => {
       }}
     >
       {leftSection && <span className={classes.itemSection}>{leftSection}</span>}
-      <span className={classes.itemLabel}>{children}</span>
+      <span className={classes.itemContent}>
+        <span className={classes.itemLabel}>{children}</span>
+        {description && (
+          <span className={classes.itemDescription}>{description}</span>
+        )}
+      </span>
       {rightSection && <span className={classes.itemSection}>{rightSection}</span>}
     </button>
   );
@@ -215,6 +223,7 @@ const MenuCheckbox = (props: MenuCheckboxProps) => {
     closeMenuOnClick,
     leftSection,
     rightSection,
+    description,
     className,
     onClick,
     disabled,
@@ -240,6 +249,7 @@ const MenuCheckbox = (props: MenuCheckboxProps) => {
       className={cx(classes.item, className)}
       data-disabled={disabled || undefined}
       data-checked={isChecked || undefined}
+      data-with-description={!!description || undefined}
       disabled={disabled}
       onClick={(event) => {
         onClick?.(event);
@@ -264,7 +274,12 @@ const MenuCheckbox = (props: MenuCheckboxProps) => {
         {isChecked ? "check" : ""}
       </span>
       {leftSection && <span className={classes.itemSection}>{leftSection}</span>}
-      <span className={classes.itemLabel}>{children}</span>
+      <span className={classes.itemContent}>
+        <span className={classes.itemLabel}>{children}</span>
+        {description && (
+          <span className={classes.itemDescription}>{description}</span>
+        )}
+      </span>
       {rightSection && <span className={classes.itemSection}>{rightSection}</span>}
     </button>
   );
@@ -280,6 +295,7 @@ const MenuRadio = (props: MenuRadioProps) => {
     closeMenuOnClick,
     leftSection,
     rightSection,
+    description,
     className,
     onClick,
     disabled,
@@ -298,7 +314,7 @@ const MenuRadio = (props: MenuRadioProps) => {
 
   const selectedValue = context.getRadioValue(name);
   const isChecked = isControlled ? !!checked : selectedValue === value;
-  const shouldClose = closeMenuOnClick ?? context.closeOnItemClick;
+  const shouldClose = closeMenuOnClick ?? false;
 
   return (
     <button
@@ -309,6 +325,7 @@ const MenuRadio = (props: MenuRadioProps) => {
       className={cx(classes.item, className)}
       data-disabled={disabled || undefined}
       data-checked={isChecked || undefined}
+      data-with-description={!!description || undefined}
       disabled={disabled}
       onClick={(event) => {
         onClick?.(event);
@@ -332,7 +349,12 @@ const MenuRadio = (props: MenuRadioProps) => {
         {isChecked ? "dot" : ""}
       </span>
       {leftSection && <span className={classes.itemSection}>{leftSection}</span>}
-      <span className={classes.itemLabel}>{children}</span>
+      <span className={classes.itemContent}>
+        <span className={classes.itemLabel}>{children}</span>
+        {description && (
+          <span className={classes.itemDescription}>{description}</span>
+        )}
+      </span>
       {rightSection && <span className={classes.itemSection}>{rightSection}</span>}
     </button>
   );

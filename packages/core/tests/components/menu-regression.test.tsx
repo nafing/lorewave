@@ -75,12 +75,58 @@ describe("menu regression", () => {
 
     fireEvent.click(grid);
 
-    fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    expect(screen.getByRole("menu")).toBeInTheDocument();
     expect(screen.getByRole("menuitemradio", { name: "List" })).toHaveAttribute(
       "aria-checked",
       "false",
     );
     expect(screen.getByRole("menuitemradio", { name: "Grid" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+  });
+
+  it("does not close submenu after clicking checkbox or radio", () => {
+    render(
+      <Menu withinPortal={false}>
+        <Menu.Target>
+          <button type="button">Open menu</button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Sub label="Preferences">
+            <Menu.Checkbox defaultChecked>Pin tab</Menu.Checkbox>
+            <Menu.Radio name="density" value="comfortable" defaultChecked>
+              Comfortable
+            </Menu.Radio>
+            <Menu.Radio name="density" value="compact">
+              Compact
+            </Menu.Radio>
+          </Menu.Sub>
+        </Menu.Dropdown>
+      </Menu>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+    fireEvent.click(screen.getByRole("menuitem", { name: /Preferences/ }));
+
+    const pinTab = screen.getByRole("menuitemcheckbox", { name: "Pin tab" });
+    fireEvent.click(pinTab);
+
+    expect(screen.getByRole("menuitemcheckbox", { name: "Pin tab" })).toBeInTheDocument();
+    expect(pinTab).toHaveAttribute("aria-checked", "false");
+    expect(screen.getByRole("menuitemradio", { name: "Comfortable" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+
+    fireEvent.click(screen.getByRole("menuitemradio", { name: "Compact" }));
+
+    expect(screen.getByRole("menuitemcheckbox", { name: "Pin tab" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitemradio", { name: "Comfortable" })).toHaveAttribute(
+      "aria-checked",
+      "false",
+    );
+    expect(screen.getByRole("menuitemradio", { name: "Compact" })).toHaveAttribute(
       "aria-checked",
       "true",
     );
@@ -127,5 +173,33 @@ describe("menu regression", () => {
     expect(screen.getByRole("separator")).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: "Open" })).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: "Delete" })).toBeInTheDocument();
+  });
+
+  it("renders descriptions for item, checkbox and radio", () => {
+    render(
+      <Menu withinPortal={false}>
+        <Menu.Target>
+          <button type="button">Open menu</button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item description="Create a new file in workspace">Create file</Menu.Item>
+          <Menu.Checkbox description="Keep this section visible">Pin sidebar</Menu.Checkbox>
+          <Menu.Radio
+            name="layout"
+            value="list"
+            description="Compact rows layout"
+            defaultChecked
+          >
+            List
+          </Menu.Radio>
+        </Menu.Dropdown>
+      </Menu>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
+
+    expect(screen.getByText("Create a new file in workspace")).toBeInTheDocument();
+    expect(screen.getByText("Keep this section visible")).toBeInTheDocument();
+    expect(screen.getByText("Compact rows layout")).toBeInTheDocument();
   });
 });
