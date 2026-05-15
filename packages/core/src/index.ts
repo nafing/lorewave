@@ -18,6 +18,7 @@ export * from "./components/MultiSelect/MultiSelect";
 export * from "./components/Tooltip/Tooltip";
 export * from "./components/Popover/Popover";
 export * from "./components/Menu/Menu";
+export * from "./components/ContextMenu/ContextMenu";
 export * from "./components/Divider/Divider";
 export * from "./components/Text/Text";
 export * from "./components/Title/Title";

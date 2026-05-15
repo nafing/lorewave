@@ -1,3 +1,4 @@
+import React from "react";
 import type { Token } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getFontSize, getRadius, getSize } from "../../utils/get-size";
@@ -78,11 +79,30 @@ export const NumberInput = coreCompute<CProps, CSlots, HTMLInputElement>(
     },
   },
   (props, slot) => {
+    const inputId = props.id ?? React.useId();
+    const labelId = props.label ? `${inputId}-label` : undefined;
+    const descriptionId = props.description
+      ? `${inputId}-description`
+      : undefined;
+    const ariaLabel =
+      props["aria-label"] ??
+      (!props.label &&
+      !props["aria-labelledby"] &&
+      typeof props.placeholder === "string"
+        ? props.placeholder
+        : undefined);
+
     return (
       <div {...slot.root}>
-        {props.label && <label {...slot.label}>{props.label}</label>}
+        {props.label && (
+          <label {...slot.label} id={labelId} htmlFor={inputId}>
+            {props.label}
+          </label>
+        )}
         {props.description && (
-          <div {...slot.description}>{props.description}</div>
+          <div {...slot.description} id={descriptionId}>
+            {props.description}
+          </div>
         )}
         <div {...slot.wrapper}>
           {props.leftSection && (
@@ -90,6 +110,7 @@ export const NumberInput = coreCompute<CProps, CSlots, HTMLInputElement>(
           )}
           <input
             {...slot.input}
+            id={inputId}
             type="number"
             name={props.name}
             min={props.min}
@@ -101,6 +122,11 @@ export const NumberInput = coreCompute<CProps, CSlots, HTMLInputElement>(
             disabled={props.disabled}
             readOnly={props.readOnly || props.readonly}
             aria-invalid={props["aria-invalid"] ?? !!props.error}
+            aria-label={ariaLabel}
+            aria-labelledby={props.label ? labelId : props["aria-labelledby"]}
+            aria-describedby={
+              props.description ? descriptionId : props["aria-describedby"]
+            }
             onChange={(event) => {
               props.onChange?.(event.currentTarget.valueAsNumber, event);
             }}

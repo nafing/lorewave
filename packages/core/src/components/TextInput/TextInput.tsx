@@ -1,3 +1,4 @@
+import React from "react";
 import type { Token } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getFontSize, getRadius, getSize } from "../../utils/get-size";
@@ -79,11 +80,30 @@ export const TextInput = coreCompute<CProps, CSlots, HTMLInputElement>(
     },
   },
   (props, slot) => {
+    const inputId = props.id ?? React.useId();
+    const labelId = props.label ? `${inputId}-label` : undefined;
+    const descriptionId = props.description
+      ? `${inputId}-description`
+      : undefined;
+    const ariaLabel =
+      props["aria-label"] ??
+      (!props.label &&
+      !props["aria-labelledby"] &&
+      typeof props.placeholder === "string"
+        ? props.placeholder
+        : undefined);
+
     return (
       <div {...slot.root}>
-        {props.label && <label {...slot.label}>{props.label}</label>}
+        {props.label && (
+          <label {...slot.label} id={labelId} htmlFor={inputId}>
+            {props.label}
+          </label>
+        )}
         {props.description && (
-          <div {...slot.description}>{props.description}</div>
+          <div {...slot.description} id={descriptionId}>
+            {props.description}
+          </div>
         )}
         <div {...slot.wrapper}>
           {props.leftSection && (
@@ -91,13 +111,19 @@ export const TextInput = coreCompute<CProps, CSlots, HTMLInputElement>(
           )}
           <input
             {...slot.input}
+            id={inputId}
             type="text"
             placeholder={props.placeholder}
             value={props.value}
             defaultValue={props.defaultValue}
             disabled={props.disabled}
             readOnly={props.readonly || props.readOnly}
-            aria-invalid={!!props.error}
+            aria-invalid={props["aria-invalid"] ?? !!props.error}
+            aria-label={ariaLabel}
+            aria-labelledby={props.label ? labelId : props["aria-labelledby"]}
+            aria-describedby={
+              props.description ? descriptionId : props["aria-describedby"]
+            }
             onChange={(event) => {
               props.onChange?.(event.currentTarget.value, event);
             }}

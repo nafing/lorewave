@@ -173,6 +173,11 @@ export const MultiSelect = coreCompute<CProps, CSlots, HTMLDivElement>(
   },
   (props, slot) => {
     const listboxId = React.useId();
+    const triggerInputId = props.id ?? `lw-multiselect-${listboxId}`;
+    const labelId = props.label ? `${triggerInputId}-label` : undefined;
+    const descriptionId = props.description
+      ? `${triggerInputId}-description`
+      : undefined;
 
     const childOptions = React.useMemo<MultiSelectOption[]>(() => {
       return React.Children.toArray(props.children).flatMap((child) => {
@@ -518,12 +523,25 @@ export const MultiSelect = coreCompute<CProps, CSlots, HTMLDivElement>(
         : selectedOptions.length === 0
           ? props.placeholder
           : undefined;
+    const triggerAriaLabel =
+      props["aria-label"] ??
+      (!props.label && !props["aria-labelledby"]
+        ? typeof props.placeholder === "string"
+          ? props.placeholder
+          : "Multi select"
+        : undefined);
 
     return (
       <div {...slot.root} data-open={open || undefined}>
-        {props.label && <label {...slot.label}>{props.label}</label>}
+        {props.label && (
+          <label {...slot.label} id={labelId} htmlFor={triggerInputId}>
+            {props.label}
+          </label>
+        )}
         {props.description && (
-          <div {...slot.description}>{props.description}</div>
+          <div {...slot.description} id={descriptionId}>
+            {props.description}
+          </div>
         )}
 
         <div {...slot.wrapper}>
@@ -553,12 +571,18 @@ export const MultiSelect = coreCompute<CProps, CSlots, HTMLDivElement>(
             <input
               {...triggerInputProps}
               ref={triggerInputRef}
+              id={triggerInputId}
               type="text"
               value={triggerInputValue}
               placeholder={triggerInputPlaceholder}
               readOnly={!props.searchable}
               disabled={props.disabled}
               aria-invalid={props["aria-invalid"] ?? !!props.error}
+              aria-label={triggerAriaLabel}
+              aria-labelledby={props.label ? labelId : props["aria-labelledby"]}
+              aria-describedby={
+                props.description ? descriptionId : props["aria-describedby"]
+              }
               aria-haspopup="listbox"
               aria-expanded={open}
               aria-controls={listboxId}
@@ -595,6 +619,7 @@ export const MultiSelect = coreCompute<CProps, CSlots, HTMLDivElement>(
 
           <select
             {...slot.native}
+            id={`${triggerInputId}-native`}
             multiple
             value={selectedValues}
             name={props.name}

@@ -164,6 +164,9 @@ export const Select = coreCompute<CProps, CSlots, HTMLInputElement>(
   },
   (props, slot) => {
     const listboxId = React.useId();
+    const triggerId = props.id ?? `lw-select-${listboxId}`;
+    const labelId = props.label ? `${triggerId}-label` : undefined;
+    const descriptionId = props.description ? `${triggerId}-description` : undefined;
     const childOptions = React.useMemo<SelectOption[]>(() => {
       return React.Children.toArray(props.children).flatMap((child) => {
         if (!React.isValidElement(child) || child.type !== "option") {
@@ -490,12 +493,25 @@ export const Select = coreCompute<CProps, CSlots, HTMLInputElement>(
       open && props.searchable
         ? props.searchPlaceholder ?? "Search..."
         : props.placeholder;
+    const triggerAriaLabel =
+      props["aria-label"] ??
+      (!props.label && !props["aria-labelledby"]
+        ? typeof props.placeholder === "string"
+          ? props.placeholder
+          : "Select"
+        : undefined);
 
     return (
       <div {...slot.root} data-open={open || undefined}>
-        {props.label && <label {...slot.label}>{props.label}</label>}
+        {props.label && (
+          <label {...slot.label} id={labelId} htmlFor={triggerId}>
+            {props.label}
+          </label>
+        )}
         {props.description && (
-          <div {...slot.description}>{props.description}</div>
+          <div {...slot.description} id={descriptionId}>
+            {props.description}
+          </div>
         )}
 
         <div {...slot.wrapper}>
@@ -534,12 +550,18 @@ export const Select = coreCompute<CProps, CSlots, HTMLInputElement>(
               },
             })}
             ref={refs.setReference}
+            id={triggerId}
             type="text"
             value={triggerValue}
             placeholder={triggerPlaceholder}
             readOnly={!props.searchable}
             disabled={props.disabled}
             aria-invalid={props["aria-invalid"] ?? !!props.error}
+            aria-label={triggerAriaLabel}
+            aria-labelledby={props.label ? labelId : props["aria-labelledby"]}
+            aria-describedby={
+              props.description ? descriptionId : props["aria-describedby"]
+            }
             aria-haspopup="listbox"
             aria-expanded={open}
             aria-controls={listboxId}
@@ -553,6 +575,7 @@ export const Select = coreCompute<CProps, CSlots, HTMLInputElement>(
 
           <select
             {...slot.native}
+            id={`${triggerId}-native`}
             value={selectedValue}
             name={props.name}
             required={props.required}

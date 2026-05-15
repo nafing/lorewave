@@ -2,22 +2,18 @@ import {
   FloatingFocusManager,
   FloatingPortal,
   autoUpdate,
-  flip,
   offset,
-  shift,
-  useClick,
   useDismiss,
   useFloating,
-  useHover,
   useInteractions,
   type Placement,
 } from "@floating-ui/react";
 import React from "react";
 import type { Token } from "../../types/core";
 import { getFontSize, getRadius } from "../../utils/get-size";
-import classes from "./Menu.module.css";
+import classes from "./ContextMenu.module.css";
 
-type MenuContextValue = {
+type ContextMenuContextValue = {
   closeMenu: () => void;
   closeOnItemClick: boolean;
   getRadioValue: (name: string) => string | undefined;
@@ -25,12 +21,21 @@ type MenuContextValue = {
   registerRadio: (name: string, value: string, checked: boolean) => void;
 };
 
-const MenuContext = React.createContext<MenuContextValue | null>(null);
+type Point = {
+  x: number;
+  y: number;
+};
 
-const useMenuContext = () => {
-  const context = React.useContext(MenuContext);
+const ContextMenuContext = React.createContext<ContextMenuContextValue | null>(
+  null,
+);
+
+const useContextMenuContext = () => {
+  const context = React.useContext(ContextMenuContext);
   if (!context) {
-    throw new Error("Menu compound components must be used inside <Menu>");
+    throw new Error(
+      "ContextMenu compound components must be used inside <ContextMenu>",
+    );
   }
 
   return context;
@@ -48,7 +53,23 @@ const toPx = (value: string | number | undefined): string | undefined => {
   return value;
 };
 
-interface MenuProps extends Omit<
+const createVirtualReference = ({ x, y }: Point) => {
+  return {
+    getBoundingClientRect: () => ({
+      x,
+      y,
+      left: x,
+      top: y,
+      right: x,
+      bottom: y,
+      width: 0,
+      height: 0,
+      toJSON: () => ({}),
+    }),
+  };
+};
+
+interface ContextMenuProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "color"
 > {
@@ -58,7 +79,6 @@ interface MenuProps extends Omit<
   opened?: boolean;
   defaultOpened?: boolean;
   onOpenChange?: (opened: boolean) => void;
-  trigger?: "click" | "hover";
   disabled?: boolean;
   closeOnItemClick?: boolean;
   closeOnClickOutside?: boolean;
@@ -69,7 +89,7 @@ interface MenuProps extends Omit<
   radius?: Token | number | string;
 }
 
-interface MenuItemProps extends Omit<
+interface ContextMenuItemProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   "color"
 > {
@@ -79,12 +99,15 @@ interface MenuItemProps extends Omit<
   closeMenuOnClick?: boolean;
 }
 
-interface MenuSubProps extends Omit<MenuItemProps, "children"> {
+interface ContextMenuSubProps extends Omit<ContextMenuItemProps, "children"> {
   label: React.ReactNode;
   children: React.ReactNode;
 }
 
-interface MenuCheckboxProps extends Omit<MenuItemProps, "onChange"> {
+interface ContextMenuCheckboxProps extends Omit<
+  ContextMenuItemProps,
+  "onChange"
+> {
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: (
@@ -93,7 +116,7 @@ interface MenuCheckboxProps extends Omit<MenuItemProps, "onChange"> {
   ) => void;
 }
 
-interface MenuRadioProps extends Omit<MenuItemProps, "onChange"> {
+interface ContextMenuRadioProps extends Omit<ContextMenuItemProps, "onChange"> {
   name: string;
   value: string;
   checked?: boolean;
@@ -104,21 +127,21 @@ interface MenuRadioProps extends Omit<MenuItemProps, "onChange"> {
   ) => void;
 }
 
-interface MenuLabelProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ContextMenuLabelProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-interface MenuDividerProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ContextMenuDividerProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-interface MenuTargetProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ContextMenuTargetProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-interface MenuDropdownProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ContextMenuDropdownProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-const MenuItem = (props: MenuItemProps) => {
+const ContextMenuItem = (props: ContextMenuItemProps) => {
   const {
     leftSection,
     rightSection,
@@ -131,7 +154,7 @@ const MenuItem = (props: MenuItemProps) => {
     ...rest
   } = props;
 
-  const context = useMenuContext();
+  const context = useContextMenuContext();
   const shouldClose = closeMenuOnClick ?? context.closeOnItemClick;
 
   return (
@@ -171,7 +194,7 @@ const MenuItem = (props: MenuItemProps) => {
   );
 };
 
-const MenuSub = (props: MenuSubProps) => {
+const ContextMenuSub = (props: ContextMenuSubProps) => {
   const {
     label,
     children,
@@ -231,7 +254,7 @@ const MenuSub = (props: MenuSubProps) => {
   );
 };
 
-const MenuCheckbox = (props: MenuCheckboxProps) => {
+const ContextMenuCheckbox = (props: ContextMenuCheckboxProps) => {
   const {
     checked,
     defaultChecked,
@@ -252,7 +275,7 @@ const MenuCheckbox = (props: MenuCheckboxProps) => {
     React.useState<boolean>(!!defaultChecked);
   const isChecked = isControlled ? !!checked : uncontrolledChecked;
 
-  const context = useMenuContext();
+  const context = useContextMenuContext();
   const shouldClose = closeMenuOnClick ?? false;
 
   return (
@@ -304,7 +327,7 @@ const MenuCheckbox = (props: MenuCheckboxProps) => {
   );
 };
 
-const MenuRadio = (props: MenuRadioProps) => {
+const ContextMenuRadio = (props: ContextMenuRadioProps) => {
   const {
     name,
     value,
@@ -322,7 +345,7 @@ const MenuRadio = (props: MenuRadioProps) => {
     ...rest
   } = props;
 
-  const context = useMenuContext();
+  const context = useContextMenuContext();
   const isControlled = checked !== undefined;
 
   React.useEffect(() => {
@@ -383,7 +406,7 @@ const MenuRadio = (props: MenuRadioProps) => {
   );
 };
 
-const MenuLabel = (props: MenuLabelProps) => {
+const ContextMenuLabel = (props: ContextMenuLabelProps) => {
   const { className, children, ...rest } = props;
 
   return (
@@ -393,7 +416,7 @@ const MenuLabel = (props: MenuLabelProps) => {
   );
 };
 
-const MenuDivider = (props: MenuDividerProps) => {
+const ContextMenuDivider = (props: ContextMenuDividerProps) => {
   const { className, ...rest } = props;
 
   return (
@@ -405,15 +428,15 @@ const MenuDivider = (props: MenuDividerProps) => {
   );
 };
 
-const MenuTarget = (props: MenuTargetProps) => {
+const ContextMenuTarget = (props: ContextMenuTargetProps) => {
   return <>{props.children}</>;
 };
 
-const MenuDropdown = (props: MenuDropdownProps) => {
+const ContextMenuDropdown = (props: ContextMenuDropdownProps) => {
   return <>{props.children}</>;
 };
 
-const MenuRoot = (props: MenuProps) => {
+const ContextMenuRoot = (props: ContextMenuProps) => {
   const {
     children,
     size = "sm",
@@ -421,7 +444,6 @@ const MenuRoot = (props: MenuProps) => {
     opened,
     defaultOpened,
     onOpenChange,
-    trigger = "click",
     disabled,
     closeOnItemClick = true,
     closeOnClickOutside = true,
@@ -441,6 +463,7 @@ const MenuRoot = (props: MenuProps) => {
 
   const rawOpen = isControlled ? !!opened : uncontrolledOpen;
   const open = !disabled && rawOpen;
+  const [anchorPoint, setAnchorPoint] = React.useState<Point | null>(null);
 
   const [radioValues, setRadioValues] = React.useState<Record<string, string>>(
     {},
@@ -460,25 +483,28 @@ const MenuRoot = (props: MenuProps) => {
   const childArray = React.Children.toArray(children);
 
   const targetPart = childArray.find(
-    (child): child is React.ReactElement<MenuTargetProps> => {
-      return React.isValidElement(child) && child.type === MenuTarget;
+    (child): child is React.ReactElement<ContextMenuTargetProps> => {
+      return React.isValidElement(child) && child.type === ContextMenuTarget;
     },
   );
 
   const dropdownPart = childArray.find(
-    (child): child is React.ReactElement<MenuDropdownProps> => {
-      return React.isValidElement(child) && child.type === MenuDropdown;
+    (child): child is React.ReactElement<ContextMenuDropdownProps> => {
+      return React.isValidElement(child) && child.type === ContextMenuDropdown;
     },
   );
 
   if (!targetPart || !dropdownPart) {
-    throw new Error("Menu requires both <Menu.Target> and <Menu.Dropdown>");
+    throw new Error(
+      "ContextMenu requires both <ContextMenu.Target> and <ContextMenu.Dropdown>",
+    );
   }
 
   const {
     className: targetClassName,
     style: targetStyle,
     children: targetChildren,
+    onContextMenu: onTargetContextMenu,
     ...targetElementProps
   } = targetPart.props;
 
@@ -489,7 +515,7 @@ const MenuRoot = (props: MenuProps) => {
     ...dropdownElementProps
   } = dropdownPart.props;
 
-  const contextValue = React.useMemo<MenuContextValue>(() => {
+  const contextValue = React.useMemo<ContextMenuContextValue>(() => {
     return {
       closeMenu: () => {
         handleOpenChange(false);
@@ -530,26 +556,27 @@ const MenuRoot = (props: MenuProps) => {
   const { refs, floatingStyles, context } = useFloating({
     open,
     onOpenChange: handleOpenChange,
-    whileElementsMounted: autoUpdate,
-    placement: position,
-    middleware: [offset(offsetValue), flip(), shift({ padding: 8 })],
-  });
-
-  const click = useClick(context, {
-    enabled: !disabled && trigger === "click",
-    event: "click",
-    toggle: true,
-    keyboardHandlers: true,
-  });
-
-  const hover = useHover(context, {
-    enabled: !disabled && trigger === "hover",
-    move: false,
-    delay: {
-      open: 70,
-      close: 90,
+    whileElementsMounted: (...args) => {
+      return autoUpdate(...args, {
+        ancestorScroll: false,
+        ancestorResize: false,
+        elementResize: false,
+        layoutShift: false,
+        animationFrame: false,
+      });
     },
+    strategy: "fixed",
+    placement: position,
+    middleware: [offset(offsetValue)],
   });
+
+  React.useEffect(() => {
+    if (!anchorPoint) {
+      return;
+    }
+
+    refs.setPositionReference(createVirtualReference(anchorPoint));
+  }, [anchorPoint, refs]);
 
   const dismiss = useDismiss(context, {
     enabled: !disabled,
@@ -557,11 +584,32 @@ const MenuRoot = (props: MenuProps) => {
     escapeKey: closeOnEscape,
   });
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    click,
-    hover,
-    dismiss,
-  ]);
+  const { getFloatingProps } = useInteractions([dismiss]);
+
+  const setTargetRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      refs.setReference(node);
+    },
+    [refs],
+  );
+
+  const handleTargetContextMenu = React.useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      onTargetContextMenu?.(event);
+
+      if (event.defaultPrevented || disabled) {
+        return;
+      }
+
+      event.preventDefault();
+      setAnchorPoint({
+        x: event.clientX,
+        y: event.clientY,
+      });
+      handleOpenChange(true);
+    },
+    [disabled, handleOpenChange, onTargetContextMenu],
+  );
 
   const floatingDropdown = open ? (
     <FloatingFocusManager context={context} modal={false} initialFocus={-1}>
@@ -580,9 +628,9 @@ const MenuRoot = (props: MenuProps) => {
           } as React.CSSProperties
         }
       >
-        <MenuContext.Provider value={contextValue}>
+        <ContextMenuContext.Provider value={contextValue}>
           {dropdownChildren}
-        </MenuContext.Provider>
+        </ContextMenuContext.Provider>
       </div>
     </FloatingFocusManager>
   ) : null;
@@ -595,13 +643,14 @@ const MenuRoot = (props: MenuProps) => {
       data-disabled={disabled || undefined}
     >
       <div
-        {...getReferenceProps(targetElementProps)}
-        ref={refs.setReference}
+        {...targetElementProps}
+        ref={setTargetRef}
         className={cx(classes.target, targetClassName)}
         style={targetStyle}
         aria-haspopup="menu"
         aria-expanded={open}
         data-open={open || undefined}
+        onContextMenu={handleTargetContextMenu}
       >
         {targetChildren}
       </div>
@@ -615,13 +664,13 @@ const MenuRoot = (props: MenuProps) => {
   );
 };
 
-export const Menu = Object.assign(MenuRoot, {
-  Target: MenuTarget,
-  Dropdown: MenuDropdown,
-  Item: MenuItem,
-  Sub: MenuSub,
-  Checkbox: MenuCheckbox,
-  Radio: MenuRadio,
-  Label: MenuLabel,
-  Divider: MenuDivider,
+export const ContextMenu = Object.assign(ContextMenuRoot, {
+  Target: ContextMenuTarget,
+  Dropdown: ContextMenuDropdown,
+  Item: ContextMenuItem,
+  Sub: ContextMenuSub,
+  Checkbox: ContextMenuCheckbox,
+  Radio: ContextMenuRadio,
+  Label: ContextMenuLabel,
+  Divider: ContextMenuDivider,
 });

@@ -16,6 +16,7 @@ import {
   Tooltip,
   Popover,
   Menu,
+  ContextMenu,
   Divider,
   Text,
   Title,
@@ -114,6 +115,10 @@ const App = () => {
   const [popoverOpened, setPopoverOpened] = React.useState(false);
   const [menuPinned, setMenuPinned] = React.useState(true);
   const [menuView, setMenuView] = React.useState<"list" | "grid">("list");
+  const [contextPinned, setContextPinned] = React.useState(false);
+  const [contextView, setContextView] = React.useState<"list" | "grid">(
+    "grid",
+  );
 
   return (
     <Box m="xl">
@@ -474,6 +479,96 @@ const App = () => {
 
       <Paper p="xs" mt="xl">
         <Stack>
+          <Title>ContextMenu</Title>
+          <Text fz="sm" fw={700}>
+            ContextMenu uses the same item model as Menu, but opens on
+            right-click over target content.
+          </Text>
+
+          <Group align="stretch">
+            <ContextMenu>
+              <ContextMenu.Target>
+                <Paper
+                  p="md"
+                  bd="1px dashed var(--lorewave-color-border)"
+                  miw={260}
+                  cursor="context-menu"
+                >
+                  <Stack gap="xs">
+                    <Text fw={700}>Right click this panel</Text>
+                    <Text fz="sm" color="var(--lorewave-color-dimmed)">
+                      Open contextual actions for view mode and quick pinning.
+                    </Text>
+                  </Stack>
+                </Paper>
+              </ContextMenu.Target>
+
+              <ContextMenu.Dropdown>
+                <ContextMenu.Label>Workspace</ContextMenu.Label>
+                <ContextMenu.Item
+                  leftSection={<IconPlus size={14} />}
+                  description="Create a new draft from this location"
+                >
+                  New note
+                </ContextMenu.Item>
+                <ContextMenu.Item
+                  leftSection={<IconSettings size={14} />}
+                  description="Open workspace preferences"
+                >
+                  Open settings
+                </ContextMenu.Item>
+
+                <ContextMenu.Divider />
+
+                <ContextMenu.Sub
+                  label="View mode"
+                  leftSection={<IconStar size={14} />}
+                >
+                  <ContextMenu.Radio
+                    name="context-view"
+                    value="list"
+                    description="Single column with more details"
+                    checked={contextView === "list"}
+                    onChange={() => {
+                      setContextView("list");
+                    }}
+                  >
+                    List view
+                  </ContextMenu.Radio>
+                  <ContextMenu.Radio
+                    name="context-view"
+                    value="grid"
+                    description="Compact two-column arrangement"
+                    checked={contextView === "grid"}
+                    onChange={() => {
+                      setContextView("grid");
+                    }}
+                  >
+                    Grid view
+                  </ContextMenu.Radio>
+                </ContextMenu.Sub>
+
+                <ContextMenu.Checkbox
+                  description="Keep this panel pinned in quick access"
+                  checked={contextPinned}
+                  onChange={(checked) => {
+                    setContextPinned(checked);
+                  }}
+                >
+                  Pin panel
+                </ContextMenu.Checkbox>
+              </ContextMenu.Dropdown>
+            </ContextMenu>
+
+            <Text fz="sm" color="var(--lorewave-color-dimmed)">
+              Context view: {contextView} | Pinned: {contextPinned ? "yes" : "no"}
+            </Text>
+          </Group>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
           <Title>TextInput</Title>
           <Text fz="sm" fw={700}>
             TextInput supports all variants and sizes with proper styling.
@@ -668,7 +763,11 @@ const App = () => {
                 description="Help us improve developer experience"
                 checked={usageAnalytics}
                 onChange={setUsageAnalytics}
-                error={!usageAnalytics ? "Recommended for better diagnostics" : undefined}
+                error={
+                  !usageAnalytics
+                    ? "Recommended for better diagnostics"
+                    : undefined
+                }
               />
             </Grid.Col>
 
