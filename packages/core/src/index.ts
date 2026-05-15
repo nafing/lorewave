@@ -6,6 +6,7 @@ export * from "./components/Grid/Grid";
 
 export * from "./components/Button/Button";
 export * from "./components/ActionIcon/ActionIcon";
+export * from "./components/Badge/Badge";
 export * from "./components/TextInput/TextInput";
 export * from "./components/NumberInput/NumberInput";
 export * from "./components/Select/Select";

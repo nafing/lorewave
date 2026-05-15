@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Badge,
   Box,
   Group,
   Grid,
@@ -107,33 +108,31 @@ const App = () => {
             loading state.
           </Text>
 
-          <Grid mt="md" cols={6} gutter="md">
+          <Group>
             {SIZES.map((size) => (
-              <Grid.Col key={size} span={1}>
-                <Button size={size}>{size} SIZE</Button>
-              </Grid.Col>
+              <Button key={size} size={size}>
+                {size} SIZE
+              </Button>
             ))}
-          </Grid>
+          </Group>
 
-          <Grid mt="md" cols={6} gutter="md">
+          <Group>
             {VARIANTS.map((variant) => (
-              <Grid.Col key={variant} span={1}>
-                <Button variant={variant}>{variant} VARIANT</Button>
-              </Grid.Col>
+              <Button key={variant} variant={variant}>
+                {variant} VARIANT
+              </Button>
             ))}
-          </Grid>
+          </Group>
 
-          <Grid mt="md" cols={7} gutter="md">
+          <Group>
             {COLORS.map((color) => (
-              <Grid.Col key={color} span={1}>
-                <Button color={color}>{color} COLOR</Button>
-              </Grid.Col>
+              <Button key={color} color={color}>
+                {color} COLOR
+              </Button>
             ))}
 
-            <Grid.Col span={1}>
-              <Button color="#ff69b4">#ff69b4 COLOR (pink)</Button>
-            </Grid.Col>
-          </Grid>
+            <Button color="#ff69b4">#ff69b4 COLOR (pink)</Button>
+          </Group>
 
           <Button.Group radius="xl">
             <Button leftSection={<IconArrowLeft />}>Hello World</Button>
@@ -151,41 +150,33 @@ const App = () => {
             loading state.
           </Text>
 
-          <Grid mt="md" cols={6} gutter="md">
+          <Group>
             {SIZES.map((size) => (
-              <Grid.Col key={size} span={1}>
-                <ActionIcon size={size}>
-                  <IconStar />
-                </ActionIcon>
-              </Grid.Col>
+              <ActionIcon key={size} size={size}>
+                <IconStar />
+              </ActionIcon>
             ))}
-          </Grid>
+          </Group>
 
-          <Grid mt="md" cols={6} gutter="md">
+          <Group>
             {VARIANTS.map((variant) => (
-              <Grid.Col key={variant} span={1}>
-                <ActionIcon variant={variant}>
-                  <IconSettings />
-                </ActionIcon>
-              </Grid.Col>
+              <ActionIcon key={variant} variant={variant}>
+                <IconSettings />
+              </ActionIcon>
             ))}
-          </Grid>
+          </Group>
 
-          <Grid mt="md" cols={6} gutter="md">
+          <Group>
             {COLORS.map((color) => (
-              <Grid.Col key={color} span={1}>
-                <ActionIcon color={color}>
-                  <IconPlus />
-                </ActionIcon>
-              </Grid.Col>
-            ))}
-
-            <Grid.Col span={1}>
-              <ActionIcon color="#ff69b4">
+              <ActionIcon key={color} color={color}>
                 <IconPlus />
               </ActionIcon>
-            </Grid.Col>
-          </Grid>
+            ))}
+
+            <ActionIcon color="#ff69b4">
+              <IconPlus />
+            </ActionIcon>
+          </Group>
 
           <ActionIcon.Group radius="xl">
             <ActionIcon>
