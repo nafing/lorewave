@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "docs:api": "node ./scripts/generate-api-docs.mjs",
+    "docs:api:check": "pnpm docs:api && git diff --exit-code ../../docs/core/api.md",
     "test": "vitest run",
     "test:watch": "vitest"
   },
