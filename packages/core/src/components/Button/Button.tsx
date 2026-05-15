@@ -3,6 +3,7 @@ import type { Token, Variant } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getColorVariant } from "../../utils/get-color-variant";
 import { getFontSize, getRadius, getSize } from "../../utils/get-size";
+import { ButtonGroup } from "./ButtonGroup";
 import classes from "./Button.module.css";
 
 interface CProps {
@@ -18,13 +19,20 @@ interface CProps {
 
 type CSlots = "root" | "loader" | "inner" | "section" | "label";
 
-export const Button = coreCompute<CProps, CSlots, HTMLButtonElement>(
+const ButtonRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
   {
-    classes,
+    classes: {
+      root: classes.root,
+      loader: classes.loader,
+      inner: classes.inner,
+      section: classes.section,
+      label: classes.label,
+    },
     nativeSlot: "root",
     styleSlot: "root",
+    omitProps: ["color", "radius", "fz"],
     defaultProps: {
-      size: "md",
+      size: "sm",
       variant: "filled",
     },
     vars({ size, color, variant, radius }) {
@@ -52,20 +60,16 @@ export const Button = coreCompute<CProps, CSlots, HTMLButtonElement>(
           "data-disabled": disabled || loading,
           "data-loading": loading,
           "data-full-width": fullWidth,
-          "data-with-left-section": leftSection,
-          "data-with-right-section": rightSection,
+          "data-with-left-section": !!leftSection,
+          "data-with-right-section": !!rightSection,
         },
       };
     },
   },
   (props, slot) => {
-    const rootProps = slot.root as React.ButtonHTMLAttributes<HTMLButtonElement>;
-    const { type = "button", ...restRootProps } = rootProps;
-
     return (
       <button
-        {...restRootProps}
-        type={type}
+        {...slot.root}
         aria-busy={props.loading}
         disabled={props.disabled || props.loading}
       >
@@ -86,3 +90,7 @@ export const Button = coreCompute<CProps, CSlots, HTMLButtonElement>(
     );
   },
 );
+
+export const Button = Object.assign(ButtonRoot, {
+  Group: ButtonGroup,
+});

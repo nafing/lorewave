@@ -18,6 +18,7 @@ interface CoreComputeOptions<CProps, CSlots extends string> {
   nativeSlot: CSlots;
   styleSlot: CSlots;
   defaultProps?: Partial<CProps> & CoreStyleProps;
+  omitProps?: (keyof CoreStyleProps)[];
   vars?: (
     props: CProps & CoreStyleProps,
   ) => Partial<Record<CSlots, Record<string, unknown>>>;
@@ -97,8 +98,18 @@ export const coreCompute = <CProps, CSlots extends string, CHtml>(
         .join(" ");
       if (className) slotObj.className = className;
 
+      const stylePropsForSlot: CoreStyleProps =
+        slot === options.styleSlot && options.omitProps?.length
+          ? (Object.fromEntries(
+              Object.entries(mergedProps).filter(
+                ([key]) =>
+                  !options.omitProps!.includes(key as keyof CoreStyleProps),
+              ),
+            ) as CoreStyleProps)
+          : mergedProps;
+
       const style: CSSProperties = {
-        ...(slot === options.styleSlot ? getCoreStyle(mergedProps) : {}),
+        ...(slot === options.styleSlot ? getCoreStyle(stylePropsForSlot) : {}),
         ...(vars[slot] ?? {}),
         ...(mergedProps.styles?.[s] ?? {}),
       };

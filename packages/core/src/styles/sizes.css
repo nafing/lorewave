@@ -17,9 +17,9 @@
   --button-height-lg: calc(3.125rem * var(--lorewave-scale));
   --button-height-xl: calc(3.75rem * var(--lorewave-scale));
 
-  --button-padding-x-xs: calc(0.875rem * var(--lorewave-scale));
-  --button-padding-x-sm: calc(1.125rem * var(--lorewave-scale));
-  --button-padding-x-md: calc(1.375rem * var(--lorewave-scale));
-  --button-padding-x-lg: calc(1.625rem * var(--lorewave-scale));
-  --button-padding-x-xl: calc(2rem * var(--lorewave-scale));
+  --button-padding-x-xs: calc(0.875rem / 2 * var(--lorewave-scale));
+  --button-padding-x-sm: calc(1.125rem / 2 * var(--lorewave-scale));
+  --button-padding-x-md: calc(1.375rem / 2 * var(--lorewave-scale));
+  --button-padding-x-lg: calc(1.625rem / 2 * var(--lorewave-scale));
+  --button-padding-x-xl: calc(2rem / 2 * var(--lorewave-scale));
 }

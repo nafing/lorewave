@@ -10,9 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lorewave/core": "workspace:*",
+    "@tabler/icons-react": "^3.44.0",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "@lorewave/core": "workspace:*"
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
