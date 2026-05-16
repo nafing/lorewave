@@ -10,6 +10,7 @@ import {
   Grid,
   Button,
   TextInput,
+  TextArea,
   NumberInput,
   Select,
   MultiSelect,
@@ -99,6 +100,9 @@ const SIMPLE_SELECT_OPTIONS = [
 const App = () => {
   const [inputValue, setInputValue] = React.useState<string>(
     "nafingone@gmail.com",
+  );
+  const [bio, setBio] = React.useState<string>(
+    "I design and build resilient UI primitives for product teams.",
   );
   const [amount, setAmount] = React.useState<number>(129);
   const [framework, setFramework] = React.useState<string>("");
@@ -691,6 +695,69 @@ const App = () => {
 
             <Grid.Col span={1}>
               <Checkbox label="Read-only" readonly defaultChecked />
+            </Grid.Col>
+          </Grid>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>TextArea</Title>
+          <Text fz="sm" fw={700}>
+            TextArea supports controlled values and validation states.
+          </Text>
+
+          <Grid mt="md" cols={5} gutter="md">
+            <Grid.Col span={1}>
+              <TextArea
+                label="Bio"
+                placeholder="Tell us about yourself"
+                description="This value is controlled in React state"
+                value={bio}
+                onChange={setBio}
+                error={
+                  bio.trim().length < 30
+                    ? "Bio should be at least 30 characters"
+                    : undefined
+                }
+                rows={4}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <TextArea
+                label="Feedback"
+                placeholder="Share your thoughts"
+                rows={4}
+                leftSection={<IconStar size={16} />}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <TextArea
+                label="With right section"
+                placeholder="Write something"
+                rows={4}
+                rightSection={<IconSettings size={16} />}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <TextArea
+                label="Disabled"
+                placeholder="Disabled textarea"
+                rows={4}
+                disabled
+              />
+            </Grid.Col>
+
+            <Grid.Col span={1}>
+              <TextArea
+                label="Read-only"
+                defaultValue="Readonly value"
+                rows={4}
+                readonly
+              />
             </Grid.Col>
           </Grid>
         </Stack>

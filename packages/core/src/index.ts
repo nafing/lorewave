@@ -12,6 +12,7 @@ export * from "./components/Radio/Radio";
 export * from "./components/Switch/Switch";
 export * from "./components/Slider/Slider";
 export * from "./components/TextInput/TextInput";
+export * from "./components/TextArea/TextArea";
 export * from "./components/NumberInput/NumberInput";
 export * from "./components/Select/Select";
 export * from "./components/MultiSelect/MultiSelect";

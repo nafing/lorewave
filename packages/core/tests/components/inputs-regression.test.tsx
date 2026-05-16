@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { NumberInput } from "../../src/components/NumberInput/NumberInput";
+import { TextArea } from "../../src/components/TextArea/TextArea";
 import { TextInput } from "../../src/components/TextInput/TextInput";
 
 describe("input components regression", () => {
@@ -23,6 +24,28 @@ describe("input components regression", () => {
     render(<TextInput placeholder="readonly-text" readonly />);
 
     const input = screen.getByPlaceholderText("readonly-text");
+    expect(input).toHaveAttribute("readonly");
+  });
+
+  it("TextArea onChange returns string value and event", () => {
+    const handleChange = vi.fn();
+
+    render(<TextArea placeholder="bio" onChange={handleChange} />);
+
+    const input = screen.getByPlaceholderText("bio");
+    fireEvent.change(input, { target: { value: "Building with Lorewave." } });
+
+    expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(handleChange).toHaveBeenCalledWith(
+      "Building with Lorewave.",
+      expect.any(Object),
+    );
+  });
+
+  it("TextArea supports readonly alias", () => {
+    render(<TextArea placeholder="readonly-bio" readonly />);
+
+    const input = screen.getByPlaceholderText("readonly-bio");
     expect(input).toHaveAttribute("readonly");
   });
 
