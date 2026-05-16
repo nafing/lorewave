@@ -79,4 +79,33 @@ describe("tooltip regression", () => {
 
     expect(handleOpenChange).toHaveBeenCalled();
   });
+
+  it("renders in custom portal target", async () => {
+    const targetNode = document.createElement("div");
+    targetNode.id = "tooltip-portal-target";
+    document.body.appendChild(targetNode);
+
+    try {
+      render(
+        <Tooltip
+          label="Targeted tooltip"
+          openDelay={0}
+          closeDelay={0}
+          portalTarget="#tooltip-portal-target"
+        >
+          <button type="button">Targeted hover</button>
+        </Tooltip>,
+      );
+
+      const target = screen.getByRole("button", { name: "Targeted hover" });
+      const reference = target.parentElement as HTMLElement;
+      fireEvent.mouseEnter(reference);
+
+      await waitFor(() => {
+        expect(targetNode).toHaveTextContent("Targeted tooltip");
+      });
+    } finally {
+      targetNode.remove();
+    }
+  });
 });

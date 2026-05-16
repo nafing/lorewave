@@ -202,4 +202,31 @@ describe("menu regression", () => {
     expect(screen.getByText("Keep this section visible")).toBeInTheDocument();
     expect(screen.getByText("Compact rows layout")).toBeInTheDocument();
   });
+
+  it("renders dropdown in custom portal target", async () => {
+    const targetNode = document.createElement("div");
+    targetNode.id = "menu-portal-target";
+    document.body.appendChild(targetNode);
+
+    try {
+      render(
+        <Menu portalTarget="#menu-portal-target">
+          <Menu.Target>
+            <button type="button">Open targeted menu</button>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item>Targeted item</Menu.Item>
+          </Menu.Dropdown>
+        </Menu>,
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: "Open targeted menu" }));
+
+      await waitFor(() => {
+        expect(targetNode).toHaveTextContent("Targeted item");
+      });
+    } finally {
+      targetNode.remove();
+    }
+  });
 });

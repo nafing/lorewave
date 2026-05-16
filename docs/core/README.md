@@ -5,6 +5,7 @@ This section is split into focused pages.
 ## Read first
 
 - [API Reference (Generated)](./api.md)
+- [Component Guides](./components.md)
 - [Style Props and Tokens](./style-props.md)
 - [Testing Guide](./testing.md)
 - [Architecture Notes](./architecture.md)

@@ -1,4 +1,4 @@
-import LoaderIcon from "../../icons/LoaderIcon";
+import IconLoader from "../../icons/IconLoader";
 import type { Token, Variant } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getColorVariant } from "../../utils/get-color-variant";
@@ -6,7 +6,10 @@ import { getFontSize, getRadius, getSize } from "../../utils/get-size";
 import { ButtonGroup } from "./ButtonGroup";
 import classes from "./Button.module.css";
 
-interface CProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
+interface CProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "color"
+> {
   children?: React.ReactNode;
   size?: Token;
   variant?: Variant;
@@ -78,7 +81,7 @@ const ButtonRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
         disabled={props.disabled || props.loading}
       >
         <span {...slot.loader}>
-          <LoaderIcon width={24} height={24} strokeWidth={2} />
+          <IconLoader width={24} height={24} strokeWidth={2} />
         </span>
 
         <span {...slot.inner}>

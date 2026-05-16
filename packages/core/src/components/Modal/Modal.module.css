@@ -1,0 +1,67 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--lorewave-color-black) 38%, transparent);
+}
+
+.content {
+  width: min(var(--modal-width, 28.75rem), calc(100vw - 2rem));
+  border: 0.0625rem solid var(--lorewave-color-border);
+  border-radius: var(--modal-radius, var(--lorewave-radius-md));
+  background: var(--lorewave-color-paper);
+  color: var(--lorewave-color-text);
+  box-shadow: var(
+    --lorewave-shadow-md,
+    0 0.375rem 1.25rem color-mix(in srgb, var(--lorewave-color-black) 16%, transparent)
+  );
+}
+
+.centered {
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 0.875rem;
+  border-bottom: 0.0625rem solid var(--lorewave-color-border);
+}
+
+.title {
+  font-size: var(--lorewave-font-size-sm);
+  font-weight: var(--lorewave-font-weight-bold);
+  line-height: 1.35;
+}
+
+.closeButton {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--lorewave-color-dimmed);
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+  border-radius: var(--lorewave-radius-sm);
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  transition:
+    color 120ms ease,
+    background-color 120ms ease;
+
+  &:where(:hover, :focus-visible) {
+    color: var(--lorewave-color-text);
+    background: color-mix(in srgb, var(--lorewave-color-primary) 10%, transparent);
+    outline: none;
+  }
+}
+
+.body {
+  padding: 0.875rem;
+}

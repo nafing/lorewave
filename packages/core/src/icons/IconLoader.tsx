@@ -1,4 +1,4 @@
-const LoaderIcon = ({
+const IconLoader = ({
   width,
   height,
   strokeWidth,
@@ -25,4 +25,4 @@ const LoaderIcon = ({
   );
 };
 
-export default LoaderIcon;
+export default IconLoader;

@@ -1,4 +1,4 @@
-import LoaderIcon from "../../icons/LoaderIcon";
+import IconLoader from "../../icons/IconLoader";
 import type { Token, Variant } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getColorVariant } from "../../utils/get-color-variant";
@@ -68,7 +68,7 @@ const ActionIconRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
         disabled={props.disabled || props.loading}
       >
         <span {...slot.loader}>
-          <LoaderIcon width={18} height={18} strokeWidth={2} />
+          <IconLoader width={18} height={18} strokeWidth={2} />
         </span>
 
         <span {...slot.inner}>{props.children}</span>

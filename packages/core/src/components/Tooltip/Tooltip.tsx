@@ -1,5 +1,4 @@
 import {
-  FloatingPortal,
   autoUpdate,
   flip,
   offset,
@@ -12,6 +11,7 @@ import {
   useRole,
 } from "@floating-ui/react";
 import React from "react";
+import { Portal } from "../Portal/Portal";
 import type { Token } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getFontSize, getRadius } from "../../utils/get-size";
@@ -34,6 +34,9 @@ interface CProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"> {
   multiline?: boolean;
   maxWidth?: number | string;
   withinPortal?: boolean;
+  portalTarget?: HTMLElement | string;
+  portalReuseTargetNode?: boolean;
+  portalId?: string;
 }
 
 type CSlots = "root" | "tooltip";
@@ -156,7 +159,14 @@ export const Tooltip = coreCompute<CProps, CSlots, HTMLSpanElement>(
         </span>
 
         {props.withinPortal ? (
-          <FloatingPortal>{tooltipNode}</FloatingPortal>
+          <Portal
+            withinPortal={!!props.withinPortal && open}
+            target={props.portalTarget}
+            reuseTargetNode={props.portalReuseTargetNode}
+            id={props.portalId}
+          >
+            {tooltipNode}
+          </Portal>
         ) : (
           tooltipNode
         )}

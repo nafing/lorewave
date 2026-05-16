@@ -136,4 +136,31 @@ describe("context-menu regression", () => {
     expect(screen.getByText("Create a new file in workspace")).toBeInTheDocument();
     expect(screen.getByText("Keep this section visible")).toBeInTheDocument();
   });
+
+  it("renders dropdown in custom portal target", async () => {
+    const targetNode = document.createElement("div");
+    targetNode.id = "context-menu-portal-target";
+    document.body.appendChild(targetNode);
+
+    try {
+      render(
+        <ContextMenu portalTarget="#context-menu-portal-target">
+          <ContextMenu.Target>
+            <div>Portal context area</div>
+          </ContextMenu.Target>
+          <ContextMenu.Dropdown>
+            <ContextMenu.Item>Targeted context item</ContextMenu.Item>
+          </ContextMenu.Dropdown>
+        </ContextMenu>,
+      );
+
+      fireEvent.contextMenu(screen.getByText("Portal context area"));
+
+      await waitFor(() => {
+        expect(targetNode).toHaveTextContent("Targeted context item");
+      });
+    } finally {
+      targetNode.remove();
+    }
+  });
 });

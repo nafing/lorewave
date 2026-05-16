@@ -14,8 +14,11 @@ import {
   NumberInput,
   Select,
   MultiSelect,
+  NavLink,
   Tooltip,
   Popover,
+  Portal,
+  Modal,
   Menu,
   ContextMenu,
   Divider,
@@ -113,6 +116,11 @@ const App = () => {
   const [usageAnalytics, setUsageAnalytics] = React.useState(false);
   const [volume, setVolume] = React.useState<number>(72);
   const [brightness, setBrightness] = React.useState<number>(38);
+  const [portalOpened, setPortalOpened] = React.useState(false);
+  const [modalOpened, setModalOpened] = React.useState(false);
+  const [activeRoute, setActiveRoute] = React.useState<
+    "overview" | "billing" | "activity"
+  >("overview");
   const [notificationChannel, setNotificationChannel] = React.useState<
     "email" | "sms"
   >("email");
@@ -220,6 +228,67 @@ const App = () => {
               <IconArrowLeft />
             </ActionIcon>
           </ActionIcon.Group>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>NavLink</Title>
+          <Text fz="sm" fw={700}>
+            NavLink supports active routes, sections, descriptions and disabled
+            state.
+          </Text>
+
+          <Stack gap="xs" maw={360}>
+            <NavLink
+              href="#overview"
+              active={activeRoute === "overview"}
+              leftSection={<IconStar size={16} />}
+              rightSection={<IconArrowLeft size={14} />}
+              onClick={(event) => {
+                event.preventDefault();
+                setActiveRoute("overview");
+              }}
+            >
+              Overview
+            </NavLink>
+
+            <NavLink
+              href="#billing"
+              active={activeRoute === "billing"}
+              leftSection={<IconSettings size={16} />}
+              description="Manage subscriptions, invoices and payment methods"
+              rightSection={<Badge size="xs" variant="light">3</Badge>}
+              onClick={(event) => {
+                event.preventDefault();
+                setActiveRoute("billing");
+              }}
+            >
+              Billing
+            </NavLink>
+
+            <NavLink
+              href="#activity"
+              active={activeRoute === "activity"}
+              leftSection={<IconPlus size={16} />}
+              description="Latest events across the workspace"
+              onClick={(event) => {
+                event.preventDefault();
+                setActiveRoute("activity");
+              }}
+            >
+              Activity log
+            </NavLink>
+
+            <NavLink
+              href="#disabled"
+              disabled
+              leftSection={<IconArrowLeft size={16} />}
+              description="Unavailable in current plan"
+            >
+              Audit trail
+            </NavLink>
+          </Stack>
         </Stack>
       </Paper>
 
@@ -398,6 +467,157 @@ const App = () => {
               </ActionIcon>
             </Popover>
           </Group>
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Portal</Title>
+          <Text fz="sm" fw={700}>
+            Portal renders content at document level and supports inline mode.
+          </Text>
+
+          <Group>
+            <Button
+              onClick={() => {
+                setPortalOpened(true);
+              }}
+            >
+              Open portal layer
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => {
+                setPortalOpened(false);
+              }}
+            >
+              Close layer
+            </Button>
+          </Group>
+
+          <Box
+            p="sm"
+            bd="1px dashed var(--lorewave-color-border)"
+            radius="md"
+          >
+            <Portal withinPortal={false}>
+              <Badge variant="light" color="info">
+                This badge is rendered inline with withinPortal=false
+              </Badge>
+            </Portal>
+          </Box>
+
+          {portalOpened && (
+            <Portal id="demo-portal-layer" reuseTargetNode>
+              <Box
+                pos="fixed"
+                top={0}
+                left={0}
+                right={0}
+                bottom={0}
+                style={{
+                  zIndex: 1200,
+                  background:
+                    "color-mix(in srgb, var(--lorewave-color-black) 38%, transparent)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "1rem",
+                }}
+                onClick={() => {
+                  setPortalOpened(false);
+                }}
+              >
+                <Paper
+                  p="md"
+                  miw={260}
+                  maw={420}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                >
+                  <Stack>
+                    <Text fw={700}>Portal layer</Text>
+                    <Text fz="sm" color="var(--lorewave-color-dimmed)">
+                      This card is mounted outside the demo tree.
+                    </Text>
+                    <Button
+                      size="xs"
+                      onClick={() => {
+                        setPortalOpened(false);
+                      }}
+                    >
+                      Dismiss
+                    </Button>
+                  </Stack>
+                </Paper>
+              </Box>
+            </Portal>
+          )}
+        </Stack>
+      </Paper>
+
+      <Paper p="xs" mt="xl">
+        <Stack>
+          <Title>Modal</Title>
+          <Text fz="sm" fw={700}>
+            Modal supports focus trapping, close controls and portal targeting.
+          </Text>
+
+          <Group>
+            <Button
+              onClick={() => {
+                setModalOpened(true);
+              }}
+            >
+              Open modal
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => {
+                setModalOpened(true);
+              }}
+            >
+              Open in custom portal target
+            </Button>
+          </Group>
+
+          <div id="demo-modal-target" />
+
+          <Modal
+            opened={modalOpened}
+            onOpenChange={setModalOpened}
+            title="Project access"
+            portalTarget="#demo-modal-target"
+            closeOnEscape
+            closeOnClickOutside
+          >
+            <Stack>
+              <Text fz="sm">
+                Invite teammates to collaborate on this workspace.
+              </Text>
+              <TextInput placeholder="name@company.com" label="Email" />
+              <Group justify="flex-end">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setModalOpened(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    setModalOpened(false);
+                  }}
+                >
+                  Send invite
+                </Button>
+              </Group>
+            </Stack>
+          </Modal>
         </Stack>
       </Paper>
 

@@ -17,7 +17,14 @@ Configured in:
 ## Test locations
 
 - `packages/core/tests/components/inputs-regression.test.tsx`
+- `packages/core/tests/components/modal-regression.test.tsx`
+- `packages/core/tests/components/navlink-regression.test.tsx`
+- `packages/core/tests/components/portal-regression.test.tsx`
 - `packages/core/tests/components/native-props-regression.test.tsx`
+- `packages/core/tests/components/tooltip-regression.test.tsx`
+- `packages/core/tests/components/popover-regression.test.tsx`
+- `packages/core/tests/components/menu-regression.test.tsx`
+- `packages/core/tests/components/context-menu-regression.test.tsx`
 - `packages/core/tests/utils/get-size.test.ts`
 
 ## Covered regressions
@@ -25,9 +32,17 @@ Configured in:
 ## Inputs
 
 - `TextInput` custom `onChange(value, event)` contract
+- `TextArea` custom `onChange(value, event)` contract
 - `NumberInput` custom `onChange(value, event)` contract
 - `readonly` alias compatibility
 - forwarding of native handlers like `onBlur`
+
+## Overlay and navigation
+
+- `NavLink` active state semantics and disabled interaction handling
+- `Portal` target routing, inline mode and shared-node reuse
+- `Modal` open/close behavior for escape and outside click
+- `Tooltip`, `Popover`, `Menu`, `ContextMenu` portal target consistency via shared portal props
 
 ## Native props consistency
 

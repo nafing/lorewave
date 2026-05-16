@@ -75,4 +75,32 @@ describe("popover regression", () => {
     fireEvent.click(document.body);
     expect(screen.getByRole("dialog")).toHaveTextContent("Persistent content");
   });
+
+  it("renders dropdown in custom portal target", async () => {
+    const targetNode = document.createElement("div");
+    targetNode.id = "popover-portal-target";
+    document.body.appendChild(targetNode);
+
+    try {
+      render(
+        <Popover
+          portalTarget="#popover-portal-target"
+          dropdown={<div>Targeted popover</div>}
+        >
+          <button type="button">Targeted trigger</button>
+        </Popover>,
+      );
+
+      const target = screen.getByRole("button", { name: "Targeted trigger" });
+      const reference = target.parentElement as HTMLElement;
+
+      fireEvent.click(reference);
+
+      await waitFor(() => {
+        expect(targetNode).toHaveTextContent("Targeted popover");
+      });
+    } finally {
+      targetNode.remove();
+    }
+  });
 });

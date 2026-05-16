@@ -1,6 +1,5 @@
 import {
   FloatingFocusManager,
-  FloatingPortal,
   autoUpdate,
   offset,
   useDismiss,
@@ -9,6 +8,7 @@ import {
   type Placement,
 } from "@floating-ui/react";
 import React from "react";
+import { Portal } from "../Portal/Portal";
 import type { Token } from "../../types/core";
 import { getFontSize, getRadius } from "../../utils/get-size";
 import classes from "./ContextMenu.module.css";
@@ -84,6 +84,9 @@ interface ContextMenuProps extends Omit<
   closeOnClickOutside?: boolean;
   closeOnEscape?: boolean;
   withinPortal?: boolean;
+  portalTarget?: HTMLElement | string;
+  portalReuseTargetNode?: boolean;
+  portalId?: string;
   width?: number | string;
   offset?: number;
   radius?: Token | number | string;
@@ -449,6 +452,9 @@ const ContextMenuRoot = (props: ContextMenuProps) => {
     closeOnClickOutside = true,
     closeOnEscape = true,
     withinPortal = true,
+    portalTarget,
+    portalReuseTargetNode = false,
+    portalId,
     width = 220,
     offset: offsetValue = 6,
     radius,
@@ -656,7 +662,14 @@ const ContextMenuRoot = (props: ContextMenuProps) => {
       </div>
 
       {withinPortal ? (
-        <FloatingPortal>{floatingDropdown}</FloatingPortal>
+        <Portal
+          withinPortal={withinPortal && open}
+          target={portalTarget}
+          reuseTargetNode={portalReuseTargetNode}
+          id={portalId}
+        >
+          {floatingDropdown}
+        </Portal>
       ) : (
         floatingDropdown
       )}

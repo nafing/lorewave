@@ -1,6 +1,5 @@
 import {
   FloatingFocusManager,
-  FloatingPortal,
   autoUpdate,
   flip,
   offset,
@@ -12,6 +11,7 @@ import {
   useRole,
 } from "@floating-ui/react";
 import React from "react";
+import { Portal } from "../Portal/Portal";
 import type { Token } from "../../types/core";
 import { coreCompute } from "../../utils/compute/core";
 import { getFontSize, getRadius } from "../../utils/get-size";
@@ -34,6 +34,9 @@ interface CProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "color"> {
   closeOnEscape?: boolean;
   trapFocus?: boolean;
   withinPortal?: boolean;
+  portalTarget?: HTMLElement | string;
+  portalReuseTargetNode?: boolean;
+  portalId?: string;
 }
 
 type CSlots = "root" | "dropdown";
@@ -163,7 +166,14 @@ export const Popover = coreCompute<CProps, CSlots, HTMLDivElement>(
         </div>
 
         {props.withinPortal ? (
-          <FloatingPortal>{dropdownNode}</FloatingPortal>
+          <Portal
+            withinPortal={!!props.withinPortal && open}
+            target={props.portalTarget}
+            reuseTargetNode={props.portalReuseTargetNode}
+            id={props.portalId}
+          >
+            {dropdownNode}
+          </Portal>
         ) : (
           dropdownNode
         )}
