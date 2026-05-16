@@ -128,9 +128,7 @@ const App = () => {
   const [menuPinned, setMenuPinned] = React.useState(true);
   const [menuView, setMenuView] = React.useState<"list" | "grid">("list");
   const [contextPinned, setContextPinned] = React.useState(false);
-  const [contextView, setContextView] = React.useState<"list" | "grid">(
-    "grid",
-  );
+  const [contextView, setContextView] = React.useState<"list" | "grid">("grid");
 
   return (
     <Box m="xl">
@@ -258,7 +256,11 @@ const App = () => {
               active={activeRoute === "billing"}
               leftSection={<IconSettings size={16} />}
               description="Manage subscriptions, invoices and payment methods"
-              rightSection={<Badge size="xs" variant="light">3</Badge>}
+              rightSection={
+                <Badge size="xs" variant="light">
+                  3
+                </Badge>
+              }
               onClick={(event) => {
                 event.preventDefault();
                 setActiveRoute("billing");
@@ -496,11 +498,7 @@ const App = () => {
             </Button>
           </Group>
 
-          <Box
-            p="sm"
-            bd="1px dashed var(--lorewave-color-border)"
-            radius="md"
-          >
+          <Box p="sm" bd="1px dashed var(--lorewave-color-border)" radius="md">
             <Portal withinPortal={false}>
               <Badge variant="light" color="info">
                 This badge is rendered inline with withinPortal=false
@@ -516,14 +514,16 @@ const App = () => {
                 left={0}
                 right={0}
                 bottom={0}
-                style={{
-                  zIndex: 1200,
-                  background:
-                    "color-mix(in srgb, var(--lorewave-color-black) 38%, transparent)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "1rem",
+                styles={{
+                  root: {
+                    zIndex: 1200,
+                    background:
+                      "color-mix(in srgb, var(--lorewave-color-black) 38%, transparent)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "1rem",
+                  },
                 }}
                 onClick={() => {
                   setPortalOpened(false);
@@ -785,7 +785,8 @@ const App = () => {
             </ContextMenu>
 
             <Text fz="sm" color="var(--lorewave-color-dimmed)">
-              Context view: {contextView} | Pinned: {contextPinned ? "yes" : "no"}
+              Context view: {contextView} | Pinned:{" "}
+              {contextPinned ? "yes" : "no"}
             </Text>
           </Group>
         </Stack>
