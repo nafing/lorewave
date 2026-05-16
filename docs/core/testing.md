@@ -84,5 +84,5 @@ pnpm -C packages/core docs:api
 pnpm -C packages/core exec eslint src tests --ext .ts,.tsx
 pnpm -C packages/core test
 pnpm -C packages/core exec tsc -p tsconfig.app.json --noEmit
-pnpm -C apps/demo run build
+pnpm -C apps/lorewave run build
 ```

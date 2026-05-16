@@ -68,6 +68,7 @@ export const Checkbox = coreCompute<CProps, CSlots, HTMLInputElement>(
     },
   },
   (props, slot) => {
+    const Root = (props.component ?? "div") as React.ElementType;
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const isReadOnly = props.readonly || props.readOnly;
     const hasMeta =
@@ -82,7 +83,7 @@ export const Checkbox = coreCompute<CProps, CSlots, HTMLInputElement>(
     }, [props.indeterminate]);
 
     return (
-      <div {...slot.root}>
+      <Root {...slot.root}>
         <label {...slot.body}>
           <input
             {...slot.input}
@@ -126,7 +127,7 @@ export const Checkbox = coreCompute<CProps, CSlots, HTMLInputElement>(
             </span>
           )}
         </label>
-      </div>
+      </Root>
     );
   },
 );

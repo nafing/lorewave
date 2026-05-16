@@ -67,6 +67,7 @@ export const Switch = coreCompute<CProps, CSlots, HTMLInputElement>(
     },
   },
   (props, slot) => {
+    const Root = (props.component ?? "div") as React.ElementType;
     const isReadOnly = props.readonly || props.readOnly;
     const hasMeta =
       !!props.label ||
@@ -74,7 +75,7 @@ export const Switch = coreCompute<CProps, CSlots, HTMLInputElement>(
       (typeof props.error === "string" && props.error.length > 0);
 
     return (
-      <div {...slot.root}>
+      <Root {...slot.root}>
         <label {...slot.body}>
           <input
             {...slot.input}
@@ -116,7 +117,7 @@ export const Switch = coreCompute<CProps, CSlots, HTMLInputElement>(
             </span>
           )}
         </label>
-      </div>
+      </Root>
     );
   },
 );

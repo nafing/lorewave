@@ -96,6 +96,12 @@ const COMPONENTS = [
     coreComputeConst: "Text",
   },
   {
+    name: "Code",
+    source: "src/components/Code/Code.tsx",
+    propsInterface: "CProps",
+    coreComputeConst: "Code",
+  },
+  {
     name: "Title",
     source: "src/components/Title/Title.tsx",
     propsInterface: "CProps",

@@ -24,18 +24,22 @@ type CoreSlotProps<CSlots extends string> = {
   styles?: Partial<Record<CSlots, CSSProperties>>;
 };
 
+type CorePolymorphicProps = {
+  component?: React.ElementType;
+};
+
 interface CoreComputeOptions<CProps, CSlots extends string> {
   classes?: CSSModuleClasses;
   nativeSlot: CSlots;
   styleSlot: CSlots;
-  defaultProps?: Partial<CProps> & CoreStyleProps;
+  defaultProps?: Partial<CProps> & CoreStyleProps & CorePolymorphicProps;
   omitProps?: (keyof CoreStyleProps)[];
   omitHTMLProps?: string[];
   vars?: (
-    props: CProps & CoreStyleProps,
+    props: CProps & CoreStyleProps & CorePolymorphicProps,
   ) => Partial<Record<CSlots, Record<string, unknown>>>;
   mods?: (
-    props: CProps & CoreStyleProps,
+    props: CProps & CoreStyleProps & CorePolymorphicProps,
   ) => Partial<Record<CSlots, Record<string, unknown>>>;
 }
 
@@ -56,7 +60,7 @@ const getHTMLAttributes = (
 export const coreCompute = <CProps, CSlots extends string, CHtml>(
   options: CoreComputeOptions<CProps, CSlots>,
   render: (
-    props: CProps,
+    props: CProps & CorePolymorphicProps,
     slot: Record<CSlots, React.HTMLAttributes<HTMLElement>>,
   ) => React.ReactNode,
 ) => {
@@ -75,7 +79,9 @@ export const coreCompute = <CProps, CSlots extends string, CHtml>(
         FULL_HTML<CHtml extends HTMLElement ? CHtml : HTMLElement>,
         keyof CProps
       > &
-      CoreSlotProps<CSlots>,
+      CoreSlotProps<CSlots> &
+      CorePolymorphicProps &
+      Record<string, unknown>,
   ) => {
     const mergedProps = { ...options.defaultProps, ...props };
 

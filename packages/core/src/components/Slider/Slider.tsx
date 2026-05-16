@@ -83,6 +83,7 @@ export const Slider = coreCompute<CProps, CSlots, HTMLInputElement>(
     },
   },
   (props, slot) => {
+    const Root = (props.component ?? "div") as React.ElementType;
     const isReadOnly = props.readonly || props.readOnly;
     const inputId = React.useId();
     const labelId = React.useId();
@@ -108,7 +109,7 @@ export const Slider = coreCompute<CProps, CSlots, HTMLInputElement>(
     const percent = max === min ? 0 : ((currentValue - min) / (max - min)) * 100;
 
     return (
-      <div
+      <Root
         {...slot.root}
         style={{
           ...slot.root.style,
@@ -188,7 +189,7 @@ export const Slider = coreCompute<CProps, CSlots, HTMLInputElement>(
         {props.error && typeof props.error === "string" && (
           <div {...slot.error}>{props.error}</div>
         )}
-      </div>
+      </Root>
     );
   },
 );

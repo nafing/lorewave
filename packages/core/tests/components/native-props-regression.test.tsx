@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { ActionIcon } from "../../src/components/ActionIcon/ActionIcon";
 import { Button } from "../../src/components/Button/Button";
@@ -69,5 +70,47 @@ describe("native props consistency", () => {
 
     expect(screen.getByRole("group", { name: "button-group" })).toBeInTheDocument();
     expect(screen.getByRole("group", { name: "icon-group" })).toBeInTheDocument();
+  });
+
+  it("Button and ActionIcon support polymorphic component prop", () => {
+    const MockLink = React.forwardRef<
+      HTMLAnchorElement,
+      React.ComponentPropsWithoutRef<"a"> & { to: string }
+    >(({ to, ...rest }, ref) => {
+      return <a ref={ref} href={to} {...rest} />;
+    });
+
+    render(
+      <>
+        <Button component={MockLink} to="/docs">
+          Docs
+        </Button>
+
+        <ActionIcon component={MockLink} to="/changelog" aria-label="changelog">
+          C
+        </ActionIcon>
+      </>,
+    );
+
+    expect(screen.getByRole("link", { name: "Docs" })).toHaveAttribute(
+      "href",
+      "/docs",
+    );
+    expect(screen.getByRole("link", { name: "changelog" })).toHaveAttribute(
+      "href",
+      "/changelog",
+    );
+  });
+
+  it("Button tab variant sets active data state", () => {
+    render(
+      <Button variant="tab" active>
+        Components
+      </Button>,
+    );
+
+    const button = screen.getByRole("button", { name: "Components" });
+    expect(button).toHaveAttribute("data-variant", "tab");
+    expect(button).toHaveAttribute("data-active", "true");
   });
 });

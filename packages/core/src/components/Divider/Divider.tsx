@@ -55,6 +55,7 @@ export const Divider = coreCompute<CProps, CSlots, HTMLDivElement>(
     },
   },
   (props, slot) => {
+    const Root = (props.component ?? "div") as React.ElementType;
     const root = slot.root as React.HTMLAttributes<HTMLDivElement>;
     const line = slot.line as React.HTMLAttributes<HTMLDivElement>;
     const label = slot.label as React.HTMLAttributes<HTMLSpanElement>;
@@ -66,7 +67,7 @@ export const Divider = coreCompute<CProps, CSlots, HTMLDivElement>(
       !(typeof props.label === "string" && props.label === "");
 
     return (
-      <div
+      <Root
         {...root}
         role={root.role ?? "separator"}
         aria-orientation={orientation}
@@ -80,7 +81,7 @@ export const Divider = coreCompute<CProps, CSlots, HTMLDivElement>(
         ) : (
           <div {...line} data-side="single" />
         )}
-      </div>
+      </Root>
     );
   },
 );

@@ -79,6 +79,7 @@ export const NumberInput = coreCompute<CProps, CSlots, HTMLInputElement>(
     },
   },
   (props, slot) => {
+    const Root = (props.component ?? "div") as React.ElementType;
     const inputId = props.id ?? React.useId();
     const labelId = props.label ? `${inputId}-label` : undefined;
     const descriptionId = props.description
@@ -93,7 +94,7 @@ export const NumberInput = coreCompute<CProps, CSlots, HTMLInputElement>(
         : undefined);
 
     return (
-      <div {...slot.root}>
+      <Root {...slot.root}>
         {props.label && (
           <label {...slot.label} id={labelId} htmlFor={inputId}>
             {props.label}
@@ -140,7 +141,7 @@ export const NumberInput = coreCompute<CProps, CSlots, HTMLInputElement>(
         {props.error && typeof props.error === "string" && (
           <div {...slot.error}>{props.error}</div>
         )}
-      </div>
+      </Root>
     );
   },
 );

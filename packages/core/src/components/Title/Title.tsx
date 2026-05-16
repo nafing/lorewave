@@ -40,8 +40,9 @@ export const Title = coreCompute<CProps, CSlots, HTMLHeadingElement>(
   },
   (props, slot) => {
     const order = props.order ?? 1;
-    const Tag = ORDER_TO_TAG[order];
+    const defaultTag = ORDER_TO_TAG[order];
+    const Root = (props.component ?? defaultTag) as React.ElementType;
 
-    return <Tag {...slot.root}>{props.children}</Tag>;
+    return <Root {...slot.root}>{props.children}</Root>;
   },
 );

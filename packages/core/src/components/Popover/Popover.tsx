@@ -131,6 +131,7 @@ export const Popover = coreCompute<CProps, CSlots, HTMLDivElement>(
 
     const rootProps = slot.root as React.HTMLAttributes<HTMLDivElement>;
     const dropdownProps = slot.dropdown as React.HTMLAttributes<HTMLDivElement>;
+    const Root = (props.component ?? "div") as React.ElementType;
 
     const dropdownNode = open ? (
       <FloatingFocusManager
@@ -154,7 +155,7 @@ export const Popover = coreCompute<CProps, CSlots, HTMLDivElement>(
 
     return (
       <>
-        <div
+        <Root
           {...rootProps}
           {...getReferenceProps()}
           ref={refs.setReference}
@@ -163,7 +164,7 @@ export const Popover = coreCompute<CProps, CSlots, HTMLDivElement>(
           data-open={open || undefined}
         >
           {props.children}
-        </div>
+        </Root>
 
         {props.withinPortal ? (
           <Portal

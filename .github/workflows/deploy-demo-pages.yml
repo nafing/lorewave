@@ -1,4 +1,4 @@
-name: Deploy demo to GitHub Pages
+name: Deploy lorewave to GitHub Pages
 
 on:
   push:
@@ -35,8 +35,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build demo
-        run: pnpm -C apps/demo build
+      - name: Build lorewave
+        run: pnpm -C apps/lorewave build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -44,7 +44,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: apps/demo/dist
+          path: apps/lorewave/dist
 
   deploy:
     needs: build

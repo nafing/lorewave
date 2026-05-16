@@ -133,6 +133,7 @@ export const Tooltip = coreCompute<CProps, CSlots, HTMLSpanElement>(
 
     const rootProps = slot.root as React.HTMLAttributes<HTMLSpanElement>;
     const tooltipProps = slot.tooltip as React.HTMLAttributes<HTMLDivElement>;
+    const Root = (props.component ?? "span") as React.ElementType;
 
     const tooltipNode = open ? (
       <div
@@ -150,13 +151,13 @@ export const Tooltip = coreCompute<CProps, CSlots, HTMLSpanElement>(
 
     return (
       <>
-        <span
+        <Root
           {...rootProps}
           {...getReferenceProps()}
           ref={refs.setReference}
         >
           {props.children}
-        </span>
+        </Root>
 
         {props.withinPortal ? (
           <Portal

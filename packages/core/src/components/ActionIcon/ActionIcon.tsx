@@ -58,21 +58,42 @@ const ActionIconRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
   (props, slot) => {
     const rootProps =
       slot.root as React.ButtonHTMLAttributes<HTMLButtonElement>;
-    const { type = "button", ...restRootProps } = rootProps;
+    const { type = "button", onClick, tabIndex, ...restRootProps } = rootProps;
+    const Root = (props.component ?? "button") as React.ElementType;
+    const isNativeButton = !props.component || props.component === "button";
+    const isDisabled = !!(props.disabled || props.loading);
+
+    const interactiveProps = isNativeButton
+      ? {
+          type,
+          disabled: isDisabled,
+        }
+      : {
+          "aria-disabled": isDisabled || undefined,
+          tabIndex: isDisabled ? -1 : tabIndex,
+          onClick: (event: React.MouseEvent<HTMLElement>) => {
+            if (isDisabled) {
+              event.preventDefault();
+              event.stopPropagation();
+              return;
+            }
+
+            onClick?.(event as unknown as React.MouseEvent<HTMLButtonElement>);
+          },
+        };
 
     return (
-      <button
+      <Root
         {...restRootProps}
-        type={type}
+        {...interactiveProps}
         aria-busy={props.loading}
-        disabled={props.disabled || props.loading}
       >
         <span {...slot.loader}>
           <IconLoader width={18} height={18} strokeWidth={2} />
         </span>
 
         <span {...slot.inner}>{props.children}</span>
-      </button>
+      </Root>
     );
   },
 );

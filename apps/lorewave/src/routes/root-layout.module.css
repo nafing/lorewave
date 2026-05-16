@@ -1,0 +1,43 @@
+.root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(14.75rem, 18.5rem) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar content";
+}
+
+.header {
+  grid-area: header;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(0.25rem);
+}
+
+.sidebar {
+  grid-area: sidebar;
+  min-width: 0;
+}
+
+.content {
+  grid-area: content;
+  min-width: 0;
+  padding: 0.25rem 1rem 1rem 0.125rem;
+}
+
+@media (max-width: 960px) {
+  .root {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "content";
+  }
+
+  .content {
+    padding: 0 1rem 1rem;
+  }
+}

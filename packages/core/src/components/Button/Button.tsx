@@ -6,17 +6,20 @@ import { getFontSize, getRadius, getSize } from "../../utils/get-size";
 import { ButtonGroup } from "./ButtonGroup";
 import classes from "./Button.module.css";
 
+type ButtonVariant = Variant | "tab";
+
 interface CProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   "color"
 > {
   children?: React.ReactNode;
   size?: Token;
-  variant?: Variant;
+  variant?: ButtonVariant;
   leftSection?: React.ReactNode;
   rightSection?: React.ReactNode;
   loading?: boolean;
   fullWidth?: boolean;
+  active?: boolean;
 }
 
 type CSlots = "root" | "loader" | "inner" | "section" | "label";
@@ -38,7 +41,9 @@ const ButtonRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
       variant: "filled",
     },
     vars({ size, color, variant, radius }) {
-      const colors = getColorVariant(color || "primary", variant || "filled");
+      const resolvedVariant =
+        variant === "tab" ? "subtle" : variant || "filled";
+      const colors = getColorVariant(color || "primary", resolvedVariant);
 
       return {
         root: {
@@ -56,7 +61,15 @@ const ButtonRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
         },
       };
     },
-    mods: ({ disabled, loading, fullWidth, leftSection, rightSection }) => {
+    mods: ({
+      disabled,
+      loading,
+      fullWidth,
+      leftSection,
+      rightSection,
+      variant,
+      active,
+    }) => {
       return {
         root: {
           "data-disabled": disabled || loading,
@@ -64,6 +77,8 @@ const ButtonRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
           "data-full-width": fullWidth,
           "data-with-left-section": !!leftSection,
           "data-with-right-section": !!rightSection,
+          "data-variant": variant || "filled",
+          "data-active": active,
         },
       };
     },
@@ -71,15 +86,32 @@ const ButtonRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
   (props, slot) => {
     const rootProps =
       slot.root as React.ButtonHTMLAttributes<HTMLButtonElement>;
-    const { type = "button", ...restRootProps } = rootProps;
+    const { type = "button", onClick, tabIndex, ...restRootProps } = rootProps;
+    const Root = (props.component ?? "button") as React.ElementType;
+    const isNativeButton = !props.component || props.component === "button";
+    const isDisabled = !!(props.disabled || props.loading);
+
+    const interactiveProps = isNativeButton
+      ? {
+          type,
+          disabled: isDisabled,
+        }
+      : {
+          "aria-disabled": isDisabled || undefined,
+          tabIndex: isDisabled ? -1 : tabIndex,
+          onClick: (event: React.MouseEvent<HTMLElement>) => {
+            if (isDisabled) {
+              event.preventDefault();
+              event.stopPropagation();
+              return;
+            }
+
+            onClick?.(event as unknown as React.MouseEvent<HTMLButtonElement>);
+          },
+        };
 
     return (
-      <button
-        {...restRootProps}
-        type={type}
-        aria-busy={props.loading}
-        disabled={props.disabled || props.loading}
-      >
+      <Root {...restRootProps} {...interactiveProps} aria-busy={props.loading}>
         <span {...slot.loader}>
           <IconLoader width={24} height={24} strokeWidth={2} />
         </span>
@@ -93,7 +125,7 @@ const ButtonRoot = coreCompute<CProps, CSlots, HTMLButtonElement>(
             <span {...slot.section}>{props.rightSection}</span>
           )}
         </span>
-      </button>
+      </Root>
     );
   },
 );

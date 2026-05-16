@@ -163,6 +163,7 @@ export const Select = coreCompute<CProps, CSlots, HTMLInputElement>(
     },
   },
   (props, slot) => {
+    const Root = (props.component ?? "div") as React.ElementType;
     const listboxId = React.useId();
     const triggerId = props.id ?? `lw-select-${listboxId}`;
     const labelId = props.label ? `${triggerId}-label` : undefined;
@@ -502,7 +503,7 @@ export const Select = coreCompute<CProps, CSlots, HTMLInputElement>(
         : undefined);
 
     return (
-      <div {...slot.root} data-open={open || undefined}>
+      <Root {...slot.root} data-open={open || undefined}>
         {props.label && (
           <label {...slot.label} id={labelId} htmlFor={triggerId}>
             {props.label}
@@ -710,7 +711,7 @@ export const Select = coreCompute<CProps, CSlots, HTMLInputElement>(
         {props.error && typeof props.error === "string" && (
           <div {...slot.error}>{props.error}</div>
         )}
-      </div>
+      </Root>
     );
   },
 );

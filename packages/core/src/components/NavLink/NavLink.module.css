@@ -1,4 +1,11 @@
 .root {
+  --nav-link-active-color: var(--lorewave-color-white);
+  --nav-link-active-bg: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--lorewave-color-primary) 26%, transparent) 0%,
+    color-mix(in srgb, var(--lorewave-color-primary) 12%, transparent) 100%
+  );
+
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -14,16 +21,18 @@
   transition:
     background-color 120ms ease,
     color 120ms ease,
-    opacity 120ms ease;
+    opacity 120ms ease,
+    box-shadow 120ms ease;
 
   &:where(:hover, :focus-visible):not([data-disabled]) {
     outline: none;
     background: color-mix(in srgb, var(--lorewave-color-primary) 9%, transparent);
   }
 
-  &:where([data-active]) {
-    color: var(--lorewave-color-primary);
-    background: color-mix(in srgb, var(--lorewave-color-primary) 14%, transparent);
+  &:where([data-active], [aria-current="page"], [data-status="active"]) {
+    color: var(--nav-link-active-color);
+    background: var(--nav-link-active-bg);
+    box-shadow: inset 0.125rem 0 0 var(--lorewave-color-primary);
   }
 
   &:where([data-disabled]) {
@@ -48,9 +57,9 @@
   margin-inline-start: auto;
 }
 
-.root:where([data-active]) .leftSection,
-.root:where([data-active]) .rightSection {
-  color: var(--lorewave-color-primary);
+.root:where([data-active], [aria-current="page"], [data-status="active"]) .leftSection,
+.root:where([data-active], [aria-current="page"], [data-status="active"]) .rightSection {
+  color: var(--lorewave-color-primary-light);
 }
 
 .body {
@@ -75,8 +84,12 @@
   color: var(--lorewave-color-dimmed);
 }
 
-.root:where([data-active]) .label {
+.root:where([data-active], [aria-current="page"], [data-status="active"]) .label {
   font-weight: var(--lorewave-font-weight-bold);
+}
+
+.root:where([data-active], [aria-current="page"], [data-status="active"]) .description {
+  color: color-mix(in srgb, var(--lorewave-color-primary-light) 78%, white 22%);
 }
 
 .root:where([data-disabled]) .description {

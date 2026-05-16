@@ -1,0 +1,12 @@
+body {
+  background:
+    radial-gradient(circle at top, rgba(83, 195, 240, 0.16), transparent 28%),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(26, 117, 255, 0.12),
+      transparent 26%
+    ),
+    linear-gradient(180deg, #08111f 0%, #040912 100%);
+
+  min-height: 100vh;
+}

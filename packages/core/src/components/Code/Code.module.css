@@ -1,0 +1,22 @@
+.pre {
+  display: inline-block;
+  margin: 0;
+  padding: 0.1em 0.5em;
+  border-radius: var(--code-radius, var(--lorewave-radius-sm));
+  border: 0.0625rem solid
+    color-mix(in srgb, var(--lorewave-color-border) 86%, transparent);
+  background: color-mix(in srgb, var(--lorewave-color-border) 16%, transparent);
+  color: var(--lorewave-color-dimmed);
+  font-family: var(--lorewave-font-family-monospace);
+  font-size: var(--code-fz, var(--lorewave-font-size-xs));
+  line-height: var(--code-lh, var(--lorewave-line-height-xs));
+  font-weight: var(--lorewave-font-weight-regular);
+}
+
+.code:where([data-block]) {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}

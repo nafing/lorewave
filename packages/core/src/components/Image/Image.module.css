@@ -1,0 +1,8 @@
+.root {
+  --image-fit: cover;
+
+  display: block;
+  max-width: 100%;
+  object-fit: var(--image-fit);
+  vertical-align: middle;
+}

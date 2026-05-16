@@ -172,6 +172,7 @@ export const MultiSelect = coreCompute<CProps, CSlots, HTMLDivElement>(
     },
   },
   (props, slot) => {
+    const Root = (props.component ?? "div") as React.ElementType;
     const listboxId = React.useId();
     const triggerInputId = props.id ?? `lw-multiselect-${listboxId}`;
     const labelId = props.label ? `${triggerInputId}-label` : undefined;
@@ -532,7 +533,7 @@ export const MultiSelect = coreCompute<CProps, CSlots, HTMLDivElement>(
         : undefined);
 
     return (
-      <div {...slot.root} data-open={open || undefined}>
+      <Root {...slot.root} data-open={open || undefined}>
         {props.label && (
           <label {...slot.label} id={labelId} htmlFor={triggerInputId}>
             {props.label}
@@ -755,7 +756,7 @@ export const MultiSelect = coreCompute<CProps, CSlots, HTMLDivElement>(
         {props.error && typeof props.error === "string" && (
           <div {...slot.error}>{props.error}</div>
         )}
-      </div>
+      </Root>
     );
   },
 );

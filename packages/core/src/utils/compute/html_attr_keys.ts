@@ -1,7 +1,4 @@
-export const HTML_ATTR_KEYS = new Set<
-  | keyof React.HTMLAttributes<HTMLElement>
-  | keyof React.InputHTMLAttributes<HTMLElement>
->([
+export const HTML_ATTR_KEYS = new Set<string>([
   // Core
   "id",
   "slot",
@@ -41,6 +38,32 @@ export const HTML_ATTR_KEYS = new Set<
   "formMethod",
   "formNoValidate",
   "formTarget",
+  "href",
+  "target",
+  "rel",
+  "download",
+  "hrefLang",
+  "ping",
+  "referrerPolicy",
+
+  // Polymorphic routing props
+  "to",
+  "from",
+  "params",
+  "search",
+  "hash",
+  "state",
+  "replace",
+  "resetScroll",
+  "viewTransition",
+  "preload",
+  "preloadDelay",
+  "pendingMs",
+  "pendingMinMs",
+  "activeOptions",
+  "reloadDocument",
+  "mask",
+  "maskFrom",
 
   // Data & ARIA — te są stringami, nie wchodzą do keyof, obsłuż osobno
   // "data-*", "aria-*"

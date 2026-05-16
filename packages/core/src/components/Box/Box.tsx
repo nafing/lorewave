@@ -12,6 +12,7 @@ export const Box = coreCompute<CProps, CSlots, HTMLDivElement>(
     styleSlot: "root",
   },
   (props, slot) => {
-    return <div {...slot.root}>{props.children}</div>;
+    const Root = (props.component ?? "div") as React.ElementType;
+    return <Root {...slot.root}>{props.children}</Root>;
   },
 );

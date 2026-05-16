@@ -25,6 +25,7 @@ export const ActionIconGroup = coreCompute<CProps, CSlots, HTMLDivElement>(
     },
   },
   (props, slot) => {
-    return <div {...slot.group}>{props.children}</div>;
+    const GroupRoot = (props.component ?? "div") as React.ElementType;
+    return <GroupRoot {...slot.group}>{props.children}</GroupRoot>;
   },
 );

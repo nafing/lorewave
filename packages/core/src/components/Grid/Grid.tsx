@@ -60,7 +60,8 @@ const GridRoot = coreCompute<GridProps, GridSlots, HTMLDivElement>(
     },
   },
   (props, slot) => {
-    return <div {...slot.root}>{props.children}</div>;
+    const Root = (props.component ?? "div") as React.ElementType;
+    return <Root {...slot.root}>{props.children}</Root>;
   },
 );
 
@@ -109,7 +110,8 @@ const GridCol = coreCompute<GridColProps, GridColSlots, HTMLDivElement>(
     },
   },
   (props, slot) => {
-    return <div {...slot.col}>{props.children}</div>;
+    const Col = (props.component ?? "div") as React.ElementType;
+    return <Col {...slot.col}>{props.children}</Col>;
   },
 );
 

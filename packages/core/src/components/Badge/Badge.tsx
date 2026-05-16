@@ -55,12 +55,14 @@ export const Badge = coreCompute<CProps, CSlots, HTMLSpanElement>(
     },
   },
   (props, slot) => {
+    const Root = (props.component ?? "span") as React.ElementType;
+
     return (
-      <span {...slot.root}>
+      <Root {...slot.root}>
         {props.leftSection && <span {...slot.section}>{props.leftSection}</span>}
         <span {...slot.label}>{props.children}</span>
         {props.rightSection && <span {...slot.section}>{props.rightSection}</span>}
-      </span>
+      </Root>
     );
   },
 );

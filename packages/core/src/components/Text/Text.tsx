@@ -44,7 +44,8 @@ export const Text = coreCompute<CProps, CSlots, HTMLParagraphElement>(
     },
   },
   (props, slot) => {
-    const Tag = props.span ? "span" : "p";
-    return <Tag {...slot.root}>{props.children}</Tag>;
+    const defaultTag = props.span ? "span" : "p";
+    const Root = (props.component ?? defaultTag) as React.ElementType;
+    return <Root {...slot.root}>{props.children}</Root>;
   },
 );

@@ -53,28 +53,34 @@ export const NavLink = coreCompute<CProps, CSlots, HTMLAnchorElement>(
   (props, slot) => {
     const rootProps = slot.root as React.AnchorHTMLAttributes<HTMLAnchorElement>;
     const { onClick, tabIndex, ...restRootProps } = rootProps;
+    const Root = (props.component ?? "a") as React.ElementType;
+    const isNativeAnchor = !props.component || props.component === "a";
 
     return (
-      <a
+      <Root
         {...restRootProps}
-        href={props.href}
-        target={props.target}
-        rel={props.rel}
-        download={props.download}
-        hrefLang={props.hrefLang}
-        ping={props.ping}
-        referrerPolicy={props.referrerPolicy}
+        {...(isNativeAnchor
+          ? {
+              href: props.href,
+              target: props.target,
+              rel: props.rel,
+              download: props.download,
+              hrefLang: props.hrefLang,
+              ping: props.ping,
+              referrerPolicy: props.referrerPolicy,
+            }
+          : {})}
         aria-current={props.active ? "page" : restRootProps["aria-current"]}
         aria-disabled={props.disabled || undefined}
         tabIndex={props.disabled ? -1 : tabIndex}
-        onClick={(event) => {
+        onClick={(event: React.MouseEvent<HTMLElement>) => {
           if (props.disabled) {
             event.preventDefault();
             event.stopPropagation();
             return;
           }
 
-          onClick?.(event);
+          onClick?.(event as unknown as React.MouseEvent<HTMLAnchorElement>);
         }}
       >
         {props.leftSection && (
@@ -91,7 +97,7 @@ export const NavLink = coreCompute<CProps, CSlots, HTMLAnchorElement>(
         {props.rightSection && (
           <span {...slot.rightSection}>{props.rightSection}</span>
         )}
-      </a>
+      </Root>
     );
   },
 );

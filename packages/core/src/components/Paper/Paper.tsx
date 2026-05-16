@@ -36,6 +36,7 @@ export const Paper = coreCompute<CProps, CSlots, HTMLDivElement>(
     },
   },
   (props, slot) => {
-    return <div {...slot.root}>{props.children}</div>;
+    const Root = (props.component ?? "div") as React.ElementType;
+    return <Root {...slot.root}>{props.children}</Root>;
   },
 );

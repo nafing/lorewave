@@ -67,6 +67,36 @@
   }
 }
 
+.root:where([data-variant="tab"]) {
+  --button-color: var(--lorewave-color-dimmed);
+  --button-hover-color: var(--lorewave-color-white);
+  --button-bg: transparent;
+  --button-hover-bg: color-mix(
+    in srgb,
+    var(--lorewave-color-primary) 12%,
+    transparent
+  );
+  --button-border: transparent;
+  --button-hover-border: transparent;
+
+  min-height: calc(var(--button-height) * 0.9);
+  border-width: 0 0 0.125rem;
+  border-radius: 0;
+  padding-inline: calc(var(--button-padding-x) * 0.85);
+  background: transparent;
+}
+
+.root:where([data-variant="tab"]):where(:active):not(:disabled):not([data-disabled]) {
+  transform: none;
+}
+
+.root:where([data-variant="tab"][data-active]),
+.root:where([data-variant="tab"][aria-current="page"]) {
+  color: var(--lorewave-color-white);
+  border-bottom-color: var(--lorewave-color-primary);
+  background: color-mix(in srgb, var(--lorewave-color-primary) 18%, transparent);
+}
+
 .loader {
   position: absolute;
   inset: 0;
